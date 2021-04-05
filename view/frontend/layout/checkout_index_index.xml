@@ -24,7 +24,7 @@
                                                             <!-- merge payment method renders here -->
                                                             <item name="children" xsi:type="array">
                                                                 <item name="geidea" xsi:type="array">
-                                                                    <item name="component" xsi:type="string">Geidea_Payment/js/view/payment/geidea</item>
+                                                                    <item name="component" xsi:type="string">Geidea_Payment/js/view/payment/geidea-renderer</item>
                                                                     <item name="methods" xsi:type="array">
                                                                         <item name="geidea_payment" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>

@@ -1,6 +1,6 @@
 define([
         'jquery',
-        'Magento_Payment/js/view/payment/cc-form'
+        'Magento_Checkout/js/view/payment/default'
     ],
     function ($, Component) {
         'use strict';
