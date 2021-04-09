@@ -8,7 +8,8 @@ define([
         rendererList.push(
             {
                 type: 'geidea_payment',
-                component: 'Geidea_Payment/js/view/payment/method-renderer/geidea-method'
+                component: 'Geidea_Payment/js/view/payment/method-renderer/geidea-method',
+                config: window.checkoutConfig.payment.geidea_payment
             }
         );
 

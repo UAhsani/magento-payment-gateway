@@ -13,8 +13,8 @@ class Config extends \Magento\Payment\Gateway\Config\Config
         parent::__construct($scopeConfig, \Geidea\Payment\Model\Ui\GeideaConfigProvider::CODE, $pathPattern);
     }
 
-    public function getTitle($storeId = null)
+    public function getValue($name, $storeId = null)
     {
-        return (string)$this->getValue("title", $storeId);
+        return parent::getValue($name, $storeId);
     }
 }

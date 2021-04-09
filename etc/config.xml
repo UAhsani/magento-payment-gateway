@@ -7,7 +7,11 @@
                 <active>1</active>
                 <title>Geidea Payment</title>
                 <model>GeideaFacade</model>
+                <order_status>pending_payment</order_status>
                 <can_use_checkout>1</can_use_checkout>
+                <payUrl>geidea/pay</payUrl>
+                <merchantKey>test_merchant_key</merchantKey>
+                <geideaSdkUrl>https://www.merchant.geidea.net/hpp/geideapay.min.js</geideaSdkUrl>
             </geidea_payment>
         </payment>
     </default>
