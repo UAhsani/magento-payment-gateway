@@ -11,7 +11,7 @@
                 <can_use_checkout>1</can_use_checkout>
                 <payUrl>geidea/pay</payUrl>
                 <merchantKey>test_merchant_key</merchantKey>
-                <geideaSdkUrl>https://www.merchant.geidea.net/hpp/geideapay.min.js</geideaSdkUrl>
+                <geideaSdkUrl>https://www.merchant.geidea.net/hpp/geideapay.min</geideaSdkUrl>
             </geidea_payment>
         </payment>
     </default>

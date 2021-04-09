@@ -1,21 +1,30 @@
 define([
+        'ko',
         'jquery',
         'Magento_Checkout/js/view/payment/default',
-        'Geidea_Payment/js/action/set-payment-method',
-        'Magento_Checkout/js/model/payment/additional-validators',
-        'Magento_Customer/js/customer-data'
+        'Magento_Ui/js/modal/alert',
+        'Geidea_Payment/js/geidea/geidea-sdk'
     ],
     function (
-        $, Component, setPaymentMethodAction,
-        additionalValidators, customerData) {
+        ko, $, Component, alert,
+        geideaSdk) {
         'use strict';
 
         return Component.extend({
             defaults: {
-                template: 'Geidea_Payment/payment/geidea'
+                template: 'Geidea_Payment/payment/geidea',
+                api: ko.observable(null)
             },
 
-            context: function() {
+            initialize: function () {
+                this._super();
+
+                var self = this;
+
+                geideaSdk(this.clientConfig.geideaSdkUrl).done(function() {
+                    self.api(new GeideaApi(self.clientConfig.merchantKey));
+                });
+
                 return this;
             },
 
@@ -28,20 +37,26 @@ define([
             },
 
             continueToGeidea: function () {
-                if (additionalValidators.validate()) {
-                    //update payment method information if additional data was changed
-                    this.selectPaymentMethod();
-                    setPaymentMethodAction(this.messageContainer).done(
-                        function () {
-                            customerData.invalidate(['cart']);
-                            $.mage.redirect(
-                                window.checkoutConfig.payment.geidea_payment.payUrl
-                            );
-                        }
-                    );
+                console.log(this.api());
 
-                    return false;
-                }
+                return false;
+            },
+
+            addError: function (message, type) {
+                type = type || 'error';
+                customerData.set('messages', {
+                    messages: [{
+                        type: type,
+                        text: message
+                    }],
+                    'data_id': Math.floor(Date.now() / 1000)
+                });
+            },
+    
+            addAlert: function (message) {
+                alert({
+                    content: message
+                });
             }
         });
     }
