@@ -9,10 +9,16 @@
                 <model>GeideaFacade</model>
                 <order_status>pending_payment</order_status>
                 <can_use_checkout>1</can_use_checkout>
-                <payUrl>geidea/pay</payUrl>
-                <merchantKey>test_merchant_key</merchantKey>
+                <reserveUrl>geidea/payment/reserve</reserveUrl>
+                <callbackUrl>geidea/payment/callback</callbackUrl>
+                <merchantKey>1ae97673-bc01-49fa-bfd6-c26abefe0c1d</merchantKey>
                 <geideaSdkUrl>https://www.merchant.geidea.net/hpp/geideapay.min</geideaSdkUrl>
             </geidea_payment>
         </payment>
     </default>
 </config>
+
+<!--
+    1. Настроить отображение в админке formBlockType di.xml
+    2. Ограничить валюты SAR | USD | EGP
+-->

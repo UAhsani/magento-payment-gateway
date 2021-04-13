@@ -29,7 +29,7 @@
                         type="submit"
                         data-bind="
                         attr: {title: $t('Place Order')},
-                        enable: (getCode() == isChecked() && api() != null),
+                        enable: (getCode() == isChecked()),
                         click: continueToGeidea,
                         css: {disabled: !isPlaceOrderActionAllowed()}
                         "
