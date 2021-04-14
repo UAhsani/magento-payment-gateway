@@ -1,4 +1,4 @@
-<div id="geidea-loader" class="payment-method geidea-payment" data-bind="css: {'_active': (getCode() == isChecked())}">
+<div id="geidea-loader" class="payment-method geidea-payment" data-bind="css: {'_active': (getCode() == isChecked())}, blockLoader: processing">
     <div class="payment-method-title field choice">
         <input type="radio"
                name="payment[method]"
@@ -28,7 +28,7 @@
                 <button data-role="review-save"
                         type="submit"
                         data-bind="
-                        attr: {title: $t('Place Order')},
+                        attr: {title: $t('Continue')},
                         enable: (getCode() == isChecked() && !processing()),
                         click: continueToGeidea,
                         css: {disabled: !isPlaceOrderActionAllowed()}

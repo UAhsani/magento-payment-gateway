@@ -6,7 +6,10 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <head><script src="https://www.merchant.geidea.net/hpp/geideapay.min.js" src_type="url"/></head>
+    <head>
+        <css src='Geidea_Payment::style.css'/>
+        <script src="https://www.merchant.geidea.net/hpp/geideapay.min.js" src_type="url"/>
+    </head>
     <body>
         <referenceBlock name="checkout.root">
             <arguments>

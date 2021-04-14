@@ -1,0 +1,7 @@
+#geidea-loader .loading-mask {
+    z-index: unset;
+}
+
+#geidea-loader .loading-mask .loader img {
+    z-index: unset;
+}
