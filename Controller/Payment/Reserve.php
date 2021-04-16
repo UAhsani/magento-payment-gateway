@@ -4,6 +4,7 @@ namespace Geidea\Payment\Controller\Payment;
 
 use Magento\Authorization\Model\UserContextInterface;
 use Magento\Checkout\Model\Session as CheckoutSession;
+use Magento\Directory\Api\CountryInformationAcquirerInterface;
 use Magento\Framework\App\Action\Action as AppAction;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\ResultFactory;
@@ -16,6 +17,9 @@ use Psr\Log\LoggerInterface;
 
 class Reserve extends AbstractAction
 {
+    private $countryInformation;
+    private $logger;
+    
     public function __construct(
         Context $context,
         UserContextInterface $userContext,
@@ -23,6 +27,7 @@ class Reserve extends AbstractAction
         GuestCartRepositoryInterface $guestCartRepository,
         GenericSession $genericSession,
         CheckoutSession $checkoutSession,
+        CountryInformationAcquirerInterface $countryInformation,
         LoggerInterface $logger
     ) {
         parent::__construct(
@@ -33,6 +38,7 @@ class Reserve extends AbstractAction
             $genericSession,
             $checkoutSession
         );
+        $this->countryInformation = $countryInformation;
         $this->logger = $logger;
     }
     
@@ -63,6 +69,25 @@ class Reserve extends AbstractAction
             $response['amount'] = number_format(round($quote->getBaseGrandTotal(), 2), 2);
             $response['currency'] = $quote->getBaseCurrencyCode();
             $response['orderId'] = $quote->getReservedOrderId();
+            
+            $shippingAddress = $quote->getShippingAddress();
+            $billingAddress = $quote->getBillingAddress();
+            
+            $response['customerEmail'] = $billingAddress->getEmail();
+            $response['address'] = [
+                'shipping' => [
+                    'country' => $this->countryInformation->getCountryInfo($shippingAddress->getCountryId())->getThreeLetterAbbreviation(),
+                    'street' => implode(' ', $shippingAddress->getStreet()),
+                    'city' => $shippingAddress->getCity(),
+                    'postcode' => $shippingAddress->getPostcode()
+                ],
+                'billing' => [
+                    'country' => $this->countryInformation->getCountryInfo($billingAddress->getCountryId())->getThreeLetterAbbreviation(),
+                    'street' => implode(' ', $billingAddress->getStreet()),
+                    'city' => $billingAddress->getCity(),
+                    'postcode' => $billingAddress->getPostcode()
+                ]
+            ];
 
         } catch (LocalizedException $exception) {
             $this->logger->critical($exception);

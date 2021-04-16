@@ -88,9 +88,14 @@ define([
                 var api = new GeideaApi(this.clientConfig.merchantKey, onSuccess, onError, onCancel);
                 
                 api.configurePayment({
-                    callbackUrl: "https://magento2.avalab.io/geidea/payment/callback/",// window.checkoutConfig.payment.geidea_payment.callbackUrl,
+                    callbackUrl: window.checkoutConfig.payment.geidea_payment.callbackUrl,
                     amount: data.amount,
-                    currency: data.currency
+                    currency: data.currency,
+                    merchantReferenceId: data.orderId,
+                    email: {
+                        email: data.customerEmail
+                    },
+                    address: data.address
                 });
 
                 api.startPayment();

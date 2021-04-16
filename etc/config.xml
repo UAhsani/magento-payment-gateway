@@ -12,6 +12,7 @@
                 <authorizeUrl>geidea/payment/authorize</authorizeUrl>
                 <callbackUrl>geidea/payment/callback</callbackUrl>
                 <merchantKey>1ae97673-bc01-49fa-bfd6-c26abefe0c1d</merchantKey>
+                <merchantPassword>Password_1234567890</merchantPassword>
                 <geideaSdkUrl>https://www.merchant.geidea.net/hpp/geideapay.min</geideaSdkUrl>
             </geidea_payment>
         </payment>
