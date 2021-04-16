@@ -7,9 +7,9 @@
                 <active>1</active>
                 <title>Geidea Payment</title>
                 <model>GeideaFacade</model>
-                <order_status>pending_payment</order_status>
                 <can_use_checkout>1</can_use_checkout>
                 <reserveUrl>geidea/payment/reserve</reserveUrl>
+                <authorizeUrl>geidea/payment/authorize</authorizeUrl>
                 <callbackUrl>geidea/payment/callback</callbackUrl>
                 <merchantKey>1ae97673-bc01-49fa-bfd6-c26abefe0c1d</merchantKey>
                 <geideaSdkUrl>https://www.merchant.geidea.net/hpp/geideapay.min</geideaSdkUrl>
@@ -21,4 +21,6 @@
 <!--
     1. Настроить отображение в админке formBlockType di.xml
     2. Ограничить валюты SAR | USD | EGP
+    3. Посмотреть переводы $t в geidea-method.js
+    4. Запретить multishipping
 -->

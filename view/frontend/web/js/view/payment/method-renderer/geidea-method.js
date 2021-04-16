@@ -69,10 +69,12 @@ define([
                 return deferred.promise();
             },
 
-            startPayment: function(data, resolve, reject) {
+            startPayment: function(data, reject) {
+                
+                var deferred = $.Deferred();
                 
                 var onSuccess = function(_message, _statusCode) {
-                    return resolve();
+                    return deferred.resolve();
                 }
         
                 var onError = function(error) {
@@ -86,12 +88,33 @@ define([
                 var api = new GeideaApi(this.clientConfig.merchantKey, onSuccess, onError, onCancel);
                 
                 api.configurePayment({
-                    callbackUrl: "https://magento2.avalab.io/geidea/payment/callback/",// window.checkoutConfig.payment.geidea_payment.callbackUrl.replace("http", "https"),
+                    callbackUrl: "https://magento2.avalab.io/geidea/payment/callback/",// window.checkoutConfig.payment.geidea_payment.callbackUrl,
                     amount: data.amount,
-                    currency: "SAR"//data.currency
+                    currency: data.currency
                 });
 
                 api.startPayment();
+
+                return deferred.promise();
+            },
+
+            authorize: function(resolve, reject) {
+                var params = {
+                    'quote_id': window.checkoutConfig.quoteData['entity_id']
+                };
+
+                var deferred = $.Deferred();
+
+                $.post(window.checkoutConfig.payment.geidea_payment.authorizeUrl, params).done(function (data) {
+                    if (data.success)
+                        return resolve(data);
+        
+                    return reject(new Error(data['error_message']));
+                }).fail(function (jqXHR, textStatus, err) {
+                    return reject(err);
+                }.bind(this));
+
+                return deferred.promise();
             },
             
             continueToGeidea: function (data, event) {
@@ -107,13 +130,15 @@ define([
                         this.setPaymentMethod.bind(this, deferred.reject)()
                             .then(this.reserve.bind(this, deferred.reject))
                             .then(function(data) {
-                                return this.startPayment.bind(this, data, deferred.resolve, deferred.reject)();
-                            }.bind(this));
+                                return this.startPayment.bind(this, data, deferred.reject)();
+                            }.bind(this))
+                            .then(this.authorize.bind(this, deferred.resolve, deferred.reject));
                     }.bind(this))
                         .promise()
-                        .done(function() {
+                        .done(function(data) {
                             this.processing(false);
-                            console.log("done xd");
+                            
+                            $.mage.redirect(data.redirectUrl);
                         }.bind(this))
                         .fail(function(err) {
                             this.processing(false);
