@@ -26,6 +26,12 @@
             <argument name="configInterface" xsi:type="object">GeideaConfig</argument>
         </arguments>
     </virtualType>
-    <virtualType name="GeideaValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool"></virtualType>
+    <virtualType name="GeideaValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="currency" xsi:type="string">Geidea\Payment\Gateway\Validator\CurrencyValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
     <virtualType name="GeideaCommandPool" type="Magento\Payment\Gateway\Command\CommandPool"></virtualType>
 </config>

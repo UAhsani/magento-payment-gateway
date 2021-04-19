@@ -54,18 +54,12 @@
                         <validate>required-entry</validate>
                         <config_path>payment/geidea_payment/merchantPassword</config_path>
                     </field>
-                    <!--
-                    <field id="currencyList" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
-                        <label>A currency identifier by default</label>
-                        <source_model>WalletOne\Payment\Model\System\Config\Source\CurrencyList</source_model>
+                    <field id="currencies" translate="label" type="multiselect" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Allowed Currencies</label>
+                        <source_model>Magento\Config\Model\Config\Source\Locale\Currency\All</source_model>
                         <validate>required-entry validate-select</validate>
+                        <config_path>payment/geidea_payment/currencies</config_path>
                     </field>
-                    <field id="currencyDefault" translate="label" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Always use the default currency</label>
-                        <comment>In all currencies on the site, payment will always go for the default currency</comment>
-                        <frontend_model>WalletOne\Payment\Block\Adminhtml\System\Config\Checkbox</frontend_model>
-                    </field>
-                    -->
                 </group>
             </group>
         </section>
