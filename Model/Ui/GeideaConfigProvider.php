@@ -33,13 +33,12 @@ class GeideaConfigProvider implements ConfigProviderInterface {
         return [
             'payment' => [
                 self::CODE => [
-                    'title' => $this->config->getValue("title", $storeId),
-                    'reserveUrl' => $this->urlBuilder->getUrl($this->config->getValue("reserveUrl", $storeId)),
-                    'authorizeUrl' => $this->urlBuilder->getUrl($this->config->getValue("authorizeUrl", $storeId)),
-                    'callbackUrl' => $this->urlBuilder->getUrl($this->config->getValue("callbackUrl", $storeId)),
                     'clientConfig' => [
                         'merchantKey' => $this->config->getValue("merchantKey", $storeId),
-                        'geideaSdkUrl' => $this->config->getValue("geideaSdkUrl", $storeId)
+                        'logoUrl' => $this->config->getValue("logoUrl", $storeId),
+                        'reserveUrl' => $this->urlBuilder->getUrl($this->config->getValue("reserveUrl", $storeId)),
+                        'authorizeUrl' => $this->urlBuilder->getUrl($this->config->getValue("authorizeUrl", $storeId)),
+                        'callbackUrl' => $this->urlBuilder->getUrl($this->config->getValue("callbackUrl", $storeId))
                     ]
                 ]
             ]

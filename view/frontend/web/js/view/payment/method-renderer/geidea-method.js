@@ -57,7 +57,7 @@ define([
 
                 var deferred = $.Deferred();
 
-                $.post(window.checkoutConfig.payment.geidea_payment.reserveUrl, params).done(function (data) {
+                $.post(this.clientConfig.reserveUrl, params).done(function (data) {
                     if (data.success)
                         return deferred.resolve(data);
         
@@ -88,10 +88,11 @@ define([
                 var api = new GeideaApi(this.clientConfig.merchantKey, onSuccess, onError, onCancel);
                 
                 api.configurePayment({
-                    callbackUrl: window.checkoutConfig.payment.geidea_payment.callbackUrl,
+                    callbackUrl: this.clientConfig.callbackUrl,
                     amount: data.amount,
                     currency: data.currency,
                     merchantReferenceId: data.orderId,
+                    merchantLogoUrl: this.clientConfig.logoUrl,
                     email: {
                         email: data.customerEmail
                     },
@@ -110,7 +111,7 @@ define([
 
                 var deferred = $.Deferred();
 
-                $.post(window.checkoutConfig.payment.geidea_payment.authorizeUrl, params).done(function (data) {
+                $.post(this.clientConfig.authorizeUrl, params).done(function (data) {
                     if (data.success)
                         return resolve(data);
         
@@ -141,8 +142,6 @@ define([
                     }.bind(this))
                         .promise()
                         .done(function(data) {
-                            this.processing(false);
-                            
                             $.mage.redirect(data.redirectUrl);
                         }.bind(this))
                         .fail(function(err) {

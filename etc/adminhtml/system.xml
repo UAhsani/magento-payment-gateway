@@ -2,18 +2,71 @@
     <system>
         <section id="payment">
             <group id="geidea_payment" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Geidea Payment</label>
-                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Enabled</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="title" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Title</label>
-                </field>
-                <field id="cctypes" translate="label" type="multiselect" sortOrder="65" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Credit Card Types</label>
-                    <source_model>Magento\Payment\Model\Source\Cctype</source_model>
-                </field>
+                
+                <label>Geidea Payment</label>               
+                <group id="geidea_payment_general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    
+                    <label>General Settings</label>
+                    <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/geidea_payment/active</config_path>
+                    </field>
+                    <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Title</label>
+                        <validate>required-entry</validate>
+                        <config_path>payment/geidea_payment/title</config_path>
+                    </field>
+                    <field id="logoUrl" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Logo Url</label>
+                        <comment>Expected formats that will display the logo: PNG, JPEG, JPG, SVG, GIF. Max image size: 40X100</comment>
+                        <frontend_class>validate-url</frontend_class>
+                        <config_path>payment/geidea_payment/logoUrl</config_path>
+                    </field>
+                    <field id="minOrderTotal" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Minimum Order Total</label>
+                        <frontend_class>validate-number</frontend_class>
+                        <config_path>payment/geidea_payment/minOrderTotal</config_path>
+                    </field>
+                    <field id="maxOrderTotal" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Maximum Order Total</label>
+                        <frontend_class>validate-number</frontend_class>
+                        <config_path>payment/geidea_payment/maxOrderTotal</config_path>
+                    </field>
+                    <field id="sortOrder" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Sort Order</label>
+                        <frontend_class>validate-number</frontend_class>
+                        <config_path>payment/geidea_payment/sortOrder</config_path>
+                    </field>
+                </group>
+
+                <group id="geidea_payment_settings" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    
+                    <label>Payment system settings</label>
+                    <field id="merchantKey" translate="label comment"  type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Merchant Key</label>
+                        <comment>Merchant ID assigned to you by Geidea</comment>
+                        <validate>required-entry</validate>
+                        <config_path>payment/geidea_payment/merchantKey</config_path>
+                    </field>
+                    <field id="merchantPassword" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Merchant Password</label>
+                        <validate>required-entry</validate>
+                        <config_path>payment/geidea_payment/merchantPassword</config_path>
+                    </field>
+                    <!--
+                    <field id="currencyList" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>A currency identifier by default</label>
+                        <source_model>WalletOne\Payment\Model\System\Config\Source\CurrencyList</source_model>
+                        <validate>required-entry validate-select</validate>
+                    </field>
+                    <field id="currencyDefault" translate="label" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Always use the default currency</label>
+                        <comment>In all currencies on the site, payment will always go for the default currency</comment>
+                        <frontend_model>WalletOne\Payment\Block\Adminhtml\System\Config\Checkbox</frontend_model>
+                    </field>
+                    -->
+                </group>
             </group>
         </section>
     </system>
