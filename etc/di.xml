@@ -1,5 +1,5 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <virtualType name="GeideaFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="GeideaFacade" type="Geidea\Payment\Model\Method\GeideaFacade">
         <arguments>
             <argument name="code" xsi:type="const">Geidea\Payment\Model\Ui\GeideaConfigProvider::CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
@@ -30,6 +30,7 @@
         <arguments>
             <argument name="validators" xsi:type="array">
                 <item name="currency" xsi:type="string">Geidea\Payment\Gateway\Validator\CurrencyValidator</item>
+                <item name="availability" xsi:type="string">Geidea\Payment\Gateway\Validator\AvailabilityValidator</item>
             </argument>
         </arguments>
     </virtualType>

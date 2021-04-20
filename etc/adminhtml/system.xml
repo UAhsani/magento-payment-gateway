@@ -17,12 +17,6 @@
                         <validate>required-entry</validate>
                         <config_path>payment/geidea_payment/title</config_path>
                     </field>
-                    <field id="logoUrl" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
-                        <label>Logo Url</label>
-                        <comment>Expected formats that will display the logo: PNG, JPEG, JPG, SVG, GIF. Max image size: 40X100</comment>
-                        <frontend_class>validate-url</frontend_class>
-                        <config_path>payment/geidea_payment/logoUrl</config_path>
-                    </field>
                     <field id="minOrderTotal" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                         <label>Minimum Order Total</label>
                         <frontend_class>validate-number</frontend_class>
@@ -53,6 +47,12 @@
                         <label>Merchant Password</label>
                         <validate>required-entry</validate>
                         <config_path>payment/geidea_payment/merchantPassword</config_path>
+                    </field>
+                    <field id="logoUrl" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Logo Url</label>
+                        <comment>Expected formats that will display the logo: PNG, JPEG, JPG, SVG, GIF. Max image size: 40X100</comment>
+                        <frontend_class>validate-url</frontend_class>
+                        <config_path>payment/geidea_payment/logoUrl</config_path>
                     </field>
                     <field id="currencies" translate="label" type="multiselect" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                         <label>Allowed Currencies</label>
