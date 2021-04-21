@@ -1,9 +1,12 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <section id="payment">
-            <group id="geidea_payment" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
-                
-                <label>Geidea Payment</label>               
+
+            <group id="geidea_section" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
+                <comment><![CDATA[<div class="geidea-payment-logo"></div><div class="geidea-payment-text">Geidea Online Payments</div>]]></comment>
+                <fieldset_css>complex geidea-section</fieldset_css>
+                <frontend_model>Geidea\Payment\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+
                 <group id="geidea_payment_general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     
                     <label>General Settings</label>
@@ -53,6 +56,11 @@
                         <comment>Expected formats that will display the logo: PNG, JPEG, JPG, SVG, GIF. Max image size: 40X100</comment>
                         <frontend_class>validate-url</frontend_class>
                         <config_path>payment/geidea_payment/logoUrl</config_path>
+                    </field>
+                    <field id="headerColor" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Header Color</label>
+                        <comment><![CDATA[Optional. This color will be used by Geidea to adjust design of the widget. Use <a href="https://htmlcolorcodes.com/color-picker" target="_blank">Color Picker</a> to choose desired color.]]></comment>
+                        <config_path>payment/geidea_payment/headerColor</config_path>
                     </field>
                     <field id="currencies" translate="label" type="multiselect" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                         <label>Allowed Currencies</label>

@@ -5,3 +5,7 @@
 #geidea-loader .loading-mask .loader img {
     z-index: unset;
 }
+
+.geidea-payment .payment-icon {
+    content:url("images/geidea-logo.svg");
+}

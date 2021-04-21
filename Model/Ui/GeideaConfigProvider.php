@@ -36,6 +36,7 @@ class GeideaConfigProvider implements ConfigProviderInterface {
                     'clientConfig' => [
                         'merchantKey' => $this->config->getValue("merchantKey", $storeId),
                         'logoUrl' => $this->config->getValue("logoUrl", $storeId),
+                        'headerColor' => $this->config->getValue("headerColor", $storeId),
                         'reserveUrl' => $this->urlBuilder->getUrl($this->config->getValue("reserveUrl", $storeId)),
                         'authorizeUrl' => $this->urlBuilder->getUrl($this->config->getValue("authorizeUrl", $storeId)),
                         'callbackUrl' => $this->urlBuilder->getUrl($this->config->getValue("callbackUrl", $storeId))
