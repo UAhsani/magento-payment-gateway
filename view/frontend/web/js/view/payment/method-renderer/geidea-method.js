@@ -93,6 +93,7 @@ define([
                     currency: data.currency,
                     merchantReferenceId: data.orderId,
                     merchantLogoUrl: this.clientConfig.logoUrl,
+                    paymentOperation: "PreAuthorize",
                     styles: { "headerColor": this.clientConfig.headerColor },
                     email: {
                         email: data.customerEmail

@@ -3,7 +3,7 @@
         <arguments>
             <argument name="code" xsi:type="const">Geidea\Payment\Model\Ui\GeideaConfigProvider::CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">Magento\Payment\Block\ConfigurableInfo</argument>
+            <argument name="infoBlockType" xsi:type="string">Geidea\Payment\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">GeideaValueHandlerPool</argument>
             <argument name="validatorPool" xsi:type="object">GeideaValidatorPool</argument>
             <argument name="commandPool" xsi:type="object">GeideaCommandPool</argument>
@@ -21,6 +21,11 @@
             <argument name="methodCode" xsi:type="const">Geidea\Payment\Model\Ui\GeideaConfigProvider::CODE</argument>
         </arguments>
     </virtualType>
+    <type name="Geidea\Payment\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">GeideaConfig</argument>
+        </arguments>
+    </type>
     <virtualType name="GeideaConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
             <argument name="configInterface" xsi:type="object">GeideaConfig</argument>

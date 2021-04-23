@@ -14,6 +14,7 @@ use Magento\Framework\Controller\ResultInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\OrderFactory;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
+use Magento\Sales\Model\Order\Payment\Transaction\ManagerInterface;
 use Psr\Log\LoggerInterface;
 
 class Callback extends AppAction implements
@@ -24,6 +25,7 @@ class Callback extends AppAction implements
     private $orderRepository;
     private $orderFactory;
     private $orderSender;
+    private $managerInterface;
     private $logger;
     
     public function __construct(
@@ -32,6 +34,7 @@ class Callback extends AppAction implements
         OrderRepositoryInterface $orderRepository,
         OrderFactory $orderFactory,
         OrderSender $orderSender,
+        ManagerInterface $managerInterface,
         LoggerInterface $logger
     ) {
         parent::__construct($context);
@@ -39,6 +42,7 @@ class Callback extends AppAction implements
         $this->orderRepository = $orderRepository;
         $this->orderFactory = $orderFactory;
         $this->orderSender = $orderSender;
+        $this->managerInterface = $managerInterface;
         $this->logger = $logger;
     }
 
@@ -75,7 +79,91 @@ class Callback extends AppAction implements
         if ($result_signature != $payload['signature'])
             throw new \Exception('Invalid signature');
     }
-    
+
+    private function setPaymentData($payment, $payload)
+    {
+        $order = $payload['order'];
+        
+        $payment->setAdditionalInformation('orderId', $order['orderId']);
+        $payment->setAdditionalInformation('currency', $order['currency']);
+        $payment->setAdditionalInformation('detailedStatus', $order['detailedStatus']);
+        $payment->setAdditionalInformation('customerEmail', $order['customerEmail']);
+        $payment->setAdditionalInformation('totalAuthorizedAmount', $order['totalAuthorizedAmount']);
+        $payment->setAdditionalInformation('totalCapturedAmount', $order['totalCapturedAmount']);
+        $payment->setAdditionalInformation('totalRefundedAmount', $order['totalRefundedAmount']);
+        $payment->setAdditionalInformation('createdDate', $order['createdDate']);
+        $payment->setAdditionalInformation('updatedDate', $order['updatedDate']);
+    }
+
+    private function processAuthorization($order, $payload)
+    {
+        $payment = $order->getPayment();
+
+        foreach ($payload['order']['transactions'] as $transaction) {
+            switch ($transaction['type']) {
+                case "Authorization":
+
+                    if ($this->managerInterface->isTransactionExists($transaction['transactionId'], $payment->getId(), $order->getId()))
+                        return;
+                    
+                    $this->setPaymentData($payment, $payload);
+                    
+                    $payment
+                        ->setPreparedMessage("Authorization")
+                        ->setTransactionId($transaction['transactionId'])
+                        ->setCurrencyCode($transaction['currency'])
+                        ->setIsTransactionClosed(0)
+                        ->registerAuthorizationNotification($transaction['amount']);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        $this->orderRepository->save($order);
+    }
+
+    private function processCapture($order, $payload)
+    {
+        $payment = $order->getPayment();
+
+        foreach ($payload['order']['transactions'] as $transaction) {
+            switch ($transaction['type']) {
+
+                case "Capture":
+
+                    if ($this->managerInterface->isTransactionExists($transaction['transactionId'], $payment->getId(), $order->getId()))
+                        return;
+
+                    $this->setPaymentData($payment, $payload);
+                    
+                    $payment
+                        ->setPreparedMessage("Capture")
+                        ->setTransactionId($transaction['transactionId'])
+                        ->setCurrencyCode($transaction['currency'])
+                        ->setIsTransactionClosed(0)
+                        ->setParentTransactionId($payment->getAuthorizationTransaction()->getId())
+                        ->setShouldCloseParentTransaction(true)
+                        ->registerCaptureNotification($transaction['amount'], true);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        $this->orderRepository->save($order);
+
+        $invoice = $payment->getCreatedInvoice();
+
+        if ($invoice && !$order->getEmailSent()) {
+            $this->orderSender->send($order);
+            $order->addStatusHistoryComment(__('You notified customer about invoice #%1.', $invoice->getIncrementId()))
+                ->setIsCustomerNotified(true);
+                
+            $this->orderRepository->save($order);
+        }
+    }
+
     public function execute() : ResultInterface
     {
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
@@ -103,49 +191,15 @@ class Callback extends AppAction implements
             if (round($order->getBaseGrandTotal(), 2) > $payload['order']['amount'])
                 throw new \Exception('incorrect amount');
 
-            if (mb_strtolower($payload['order']["status"]) != "success" ||
-                mb_strtolower($payload['order']["detailedStatus"]) != "paid")
-                throw new \Exception('incorrect state');
+            if (mb_strtolower($payload['order']["status"]) != "success")
+                throw new \Exception('incorrect order state');
             
-            $payment = $order->getPayment();
-
-            foreach ($payload['order']['transactions'] as $transaction) {
-                switch ($transaction['type']) {
-                    case "Authentication":
-
-                        $payment
-                            ->setPreparedMessage("Authentication")
-                            ->setTransactionId($transaction['transactionId'])
-                            ->setCurrencyCode($transaction['currency'])
-                            ->setIsTransactionClosed(0)
-                            ->registerAuthorizationNotification($transaction['amount']);
-                        break;
-
-                    case "Pay":
-
-                        $payment
-                            ->setPreparedMessage("Pay")
-                            ->setTransactionId($transaction['transactionId'])
-                            ->setCurrencyCode($transaction['currency'])
-                            ->setIsTransactionClosed(0)
-                            ->registerCaptureNotification($transaction['amount'], true);
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            $this->orderRepository->save($order);
-
-            $invoice = $payment->getCreatedInvoice();
-
-            if ($invoice && !$order->getEmailSent()) {
-                $this->orderSender->send($order);
-                $order->addStatusHistoryComment(__('You notified customer about invoice #%1.', $invoice->getIncrementId()))
-                    ->setIsCustomerNotified(true);
-                    
-                $this->orderRepository->save($order);
-            }
+            if (mb_strtolower($payload['order']["detailedStatus"]) == "authorized")
+                $this->processAuthorization($order, $payload);
+            elseif (mb_strtolower($payload['order']["detailedStatus"]) == "captured")
+                $this->processCapture($order, $payload);
+            else
+                throw new \Exception('incorrect detailed state');
 
         } catch (\Exception $exception) {
             $this->logger->critical($exception);
