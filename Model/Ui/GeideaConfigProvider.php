@@ -1,12 +1,10 @@
 <?php
-
 namespace Geidea\Payment\Model\Ui;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\Session\SessionManagerInterface;
 use Magento\Framework\UrlInterface;
-
-use Geidea\Payment\Gateway\Config\Config;
+use Magento\Payment\Gateway\ConfigInterface;
 
 class GeideaConfigProvider implements ConfigProviderInterface {
 
@@ -17,7 +15,7 @@ class GeideaConfigProvider implements ConfigProviderInterface {
     private $urlBuilder;
 
     public function __construct(
-        Config $config,
+        ConfigInterface $config,
         SessionManagerInterface $session,
         UrlInterface $urlBuilder
     ) {

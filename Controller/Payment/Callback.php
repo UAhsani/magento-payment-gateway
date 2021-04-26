@@ -100,8 +100,8 @@ class Callback extends AppAction implements
         $payment = $order->getPayment();
 
         foreach ($payload['order']['transactions'] as $transaction) {
-            switch ($transaction['type']) {
-                case "Authorization":
+            switch (mb_strtolower($transaction['type'])) {
+                case "authorization":
 
                     if ($this->managerInterface->isTransactionExists($transaction['transactionId'], $payment->getId(), $order->getId()))
                         return;
@@ -109,11 +109,13 @@ class Callback extends AppAction implements
                     $this->setPaymentData($payment, $payload);
                     
                     $payment
-                        ->setPreparedMessage("Authorization")
                         ->setTransactionId($transaction['transactionId'])
                         ->setCurrencyCode($transaction['currency'])
                         ->setIsTransactionClosed(0)
-                        ->registerAuthorizationNotification($transaction['amount']);
+                        ->setTransactionAdditionalInfo('Response', json_encode($payload));
+                        
+                    $payment->registerAuthorizationNotification($transaction['amount']);
+
                     break;
                 default:
                     break;
@@ -128,9 +130,9 @@ class Callback extends AppAction implements
         $payment = $order->getPayment();
 
         foreach ($payload['order']['transactions'] as $transaction) {
-            switch ($transaction['type']) {
+            switch (mb_strtolower($transaction['type'])) {
 
-                case "Capture":
+                case "capture":
 
                     if ($this->managerInterface->isTransactionExists($transaction['transactionId'], $payment->getId(), $order->getId()))
                         return;
@@ -138,13 +140,15 @@ class Callback extends AppAction implements
                     $this->setPaymentData($payment, $payload);
                     
                     $payment
-                        ->setPreparedMessage("Capture")
                         ->setTransactionId($transaction['transactionId'])
                         ->setCurrencyCode($transaction['currency'])
                         ->setIsTransactionClosed(0)
-                        ->setParentTransactionId($payment->getAuthorizationTransaction()->getId())
+                        ->setParentTransactionId($payment->getAuthorizationTransaction()->getTxnId())
                         ->setShouldCloseParentTransaction(true)
-                        ->registerCaptureNotification($transaction['amount'], true);
+                        ->setTransactionAdditionalInfo('Response', json_encode($payload));
+
+                    $payment->registerCaptureNotification($transaction['amount'], true);
+
                     break;
                 default:
                     break;

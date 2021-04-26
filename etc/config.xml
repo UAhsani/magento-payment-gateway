@@ -10,10 +10,12 @@
                 <headerColor></headerColor>
                 <model>GeideaFacade</model>
                 <can_use_checkout>1</can_use_checkout>
+                <can_capture>1</can_capture>
                 <paymentInfoKeys>orderId,currency,detailedStatus,customerEmail,totalAuthorizedAmount,totalCapturedAmount,totalRefundedAmount,createdDate,updatedDate</paymentInfoKeys>
                 <reserveUrl>geidea/payment/reserve</reserveUrl>
                 <authorizeUrl>geidea/payment/authorize</authorizeUrl>
                 <callbackUrl>geidea/payment/callback</callbackUrl>
+                <captureUrl>https://api.merchant.geidea.net/pgw/api/v1/direct/capture</captureUrl>
                 <merchantKey></merchantKey>
                 <merchantPassword></merchantPassword>
                 <currencies>EGP,SAR,USD</currencies>

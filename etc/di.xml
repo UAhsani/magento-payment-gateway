@@ -21,6 +21,11 @@
             <argument name="methodCode" xsi:type="const">Geidea\Payment\Model\Ui\GeideaConfigProvider::CODE</argument>
         </arguments>
     </virtualType>
+    <type name="Geidea\Payment\Model\Ui\GeideaConfigProvider">
+        <arguments>
+            <argument name="config" xsi:type="object">GeideaConfig</argument>
+        </arguments>
+    </type>
     <type name="Geidea\Payment\Block\Info">
         <arguments>
             <argument name="config" xsi:type="object">GeideaConfig</argument>
@@ -39,5 +44,39 @@
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="GeideaCommandPool" type="Magento\Payment\Gateway\Command\CommandPool"></virtualType>
+    <virtualType name="GeideaCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="capture" xsi:type="string">GeideaCaptureCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GeideaCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">GeideaCaptureRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Geidea\Payment\Gateway\Http\CaptureTransferFactory</argument>
+            <argument name="client" xsi:type="object">Geidea\Payment\Gateway\Http\Client\Client</argument>
+            <argument name="validator" xsi:type="object">Geidea\Payment\Gateway\Validator\CaptureValidator</argument>
+            <argument name="handler" xsi:type="object">Geidea\Payment\Gateway\Response\CaptureHandler</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GeideaCaptureRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="auth" xsi:type="string">Geidea\Payment\Gateway\Request\AuthBuilder</item>
+                <item name="captureUrl" xsi:type="string">Geidea\Payment\Gateway\Request\CaptureUrlBuilder</item>
+                <item name="capture" xsi:type="string">Geidea\Payment\Gateway\Request\CaptureBodyBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Geidea\Payment\Gateway\Request\AuthBuilder">
+        <arguments>
+            <argument name="config" xsi:type="object">GeideaConfig</argument>
+        </arguments>
+    </type>
+    <type name="Geidea\Payment\Gateway\Request\CaptureUrlBuilder">
+        <arguments>
+            <argument name="config" xsi:type="object">GeideaConfig</argument>
+        </arguments>
+    </type>
 </config>
