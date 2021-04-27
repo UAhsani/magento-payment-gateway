@@ -1,39 +1,25 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <virtualType name="GeideaFacade" type="Geidea\Payment\Model\Method\GeideaFacade">
-        <arguments>
-            <argument name="code" xsi:type="const">Geidea\Payment\Model\Ui\GeideaConfigProvider::CODE</argument>
-            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">Geidea\Payment\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">GeideaValueHandlerPool</argument>
-            <argument name="validatorPool" xsi:type="object">GeideaValidatorPool</argument>
-            <argument name="commandPool" xsi:type="object">GeideaCommandPool</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="GeideaValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
-        <arguments>
-            <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">GeideaConfigValueHandler</item>
-            </argument>
-        </arguments>
-    </virtualType>
+    <!-- GeideaFacade -->
     <virtualType name="GeideaConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
             <argument name="methodCode" xsi:type="const">Geidea\Payment\Model\Ui\GeideaConfigProvider::CODE</argument>
         </arguments>
     </virtualType>
-    <type name="Geidea\Payment\Model\Ui\GeideaConfigProvider">
+    <virtualType name="GeideaConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="config" xsi:type="object">GeideaConfig</argument>
+            <argument name="configInterface" xsi:type="object">GeideaConfig</argument>
         </arguments>
-    </type>
+    </virtualType>
     <type name="Geidea\Payment\Block\Info">
         <arguments>
             <argument name="config" xsi:type="object">GeideaConfig</argument>
         </arguments>
     </type>
-    <virtualType name="GeideaConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="GeideaValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
-            <argument name="configInterface" xsi:type="object">GeideaConfig</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">GeideaConfigValueHandler</item>
+            </argument>
         </arguments>
     </virtualType>
     <virtualType name="GeideaValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
@@ -51,15 +37,37 @@
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="GeideaCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+    <virtualType name="GeideaFacade" type="Geidea\Payment\Model\Method\GeideaFacade">
         <arguments>
-            <argument name="requestBuilder" xsi:type="object">GeideaCaptureRequest</argument>
-            <argument name="transferFactory" xsi:type="object">Geidea\Payment\Gateway\Http\CaptureTransferFactory</argument>
-            <argument name="client" xsi:type="object">Geidea\Payment\Gateway\Http\Client\Client</argument>
-            <argument name="validator" xsi:type="object">Geidea\Payment\Gateway\Validator\CaptureValidator</argument>
-            <argument name="handler" xsi:type="object">Geidea\Payment\Gateway\Response\CaptureHandler</argument>
+            <argument name="code" xsi:type="const">Geidea\Payment\Model\Ui\GeideaConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Geidea\Payment\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">GeideaValueHandlerPool</argument>
+            <argument name="validatorPool" xsi:type="object">GeideaValidatorPool</argument>
+            <argument name="commandPool" xsi:type="object">GeideaCommandPool</argument>
         </arguments>
     </virtualType>
+
+    <!-- UiConfig -->
+    <type name="Geidea\Payment\Model\Ui\GeideaConfigProvider">
+        <arguments>
+            <argument name="config" xsi:type="object">GeideaConfig</argument>
+        </arguments>
+    </type>
+    
+    <!-- AuthBuilder -->
+    <type name="Geidea\Payment\Gateway\Request\AuthBuilder">
+        <arguments>
+            <argument name="config" xsi:type="object">GeideaConfig</argument>
+        </arguments>
+    </type>
+    
+    <!-- CaptureCommand -->
+    <type name="Geidea\Payment\Gateway\Request\CaptureUrlBuilder">
+        <arguments>
+            <argument name="config" xsi:type="object">GeideaConfig</argument>
+        </arguments>
+    </type>
     <virtualType name="GeideaCaptureRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
@@ -69,14 +77,13 @@
             </argument>
         </arguments>
     </virtualType>
-    <type name="Geidea\Payment\Gateway\Request\AuthBuilder">
+    <virtualType name="GeideaCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
-            <argument name="config" xsi:type="object">GeideaConfig</argument>
+            <argument name="requestBuilder" xsi:type="object">GeideaCaptureRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Geidea\Payment\Gateway\Http\CaptureTransferFactory</argument>
+            <argument name="client" xsi:type="object">Geidea\Payment\Gateway\Http\Client\Client</argument>
+            <argument name="validator" xsi:type="object">Geidea\Payment\Gateway\Validator\CaptureValidator</argument>
+            <argument name="handler" xsi:type="object">Geidea\Payment\Gateway\Response\CaptureHandler</argument>
         </arguments>
-    </type>
-    <type name="Geidea\Payment\Gateway\Request\CaptureUrlBuilder">
-        <arguments>
-            <argument name="config" xsi:type="object">GeideaConfig</argument>
-        </arguments>
-    </type>
+    </virtualType>
 </config>
