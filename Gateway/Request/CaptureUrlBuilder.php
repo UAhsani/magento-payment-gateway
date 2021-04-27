@@ -8,6 +8,7 @@ use Magento\Payment\Gateway\Helper\SubjectReader;
 class CaptureUrlBuilder implements BuilderInterface
 {
     const URL = 'url';
+    const METHOD = 'method';
 
     private $subjectReader;
     private $config;
@@ -29,7 +30,8 @@ class CaptureUrlBuilder implements BuilderInterface
         $storeId = $payment->getOrder()->getStoreId();
 
         $result = [
-            self::URL => $this->config->getValue('captureUrl', $storeId)
+            self::URL => $this->config->getValue('captureUrl', $storeId),
+            self::METHOD => "POST"
         ];
 
         return $result;

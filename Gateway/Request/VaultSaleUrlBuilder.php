@@ -1,18 +1,24 @@
 <?php
 namespace Geidea\Payment\Gateway\Request;
 
+use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Payment\Gateway\Helper\SubjectReader;
 
-class CaptureDataBuilder implements BuilderInterface
+class VaultSaleUrlBuilder implements BuilderInterface
 {
-    const ORDER_ID = 'orderId';
+    const URL = 'url';
+    const METHOD = 'method';
 
     private $subjectReader;
+    private $config;
 
-    public function __construct(SubjectReader $subjectReader)
+    public function __construct(
+        SubjectReader $subjectReader,
+        ConfigInterface $config)
     {
         $this->subjectReader = $subjectReader;
+        $this->config = $config;
     }
 
     public function build(array $buildSubject)
@@ -21,8 +27,11 @@ class CaptureDataBuilder implements BuilderInterface
 
         $payment = $paymentDO->getPayment();
 
+        $storeId = $payment->getOrder()->getStoreId();
+
         $result = [
-            self::ORDER_ID => $payment->getAdditionalInformation(self::ORDER_ID)
+            self::URL => $this->config->getValue('payByTokenUrl', $storeId),
+            self::METHOD => "POST"
         ];
 
         return $result;

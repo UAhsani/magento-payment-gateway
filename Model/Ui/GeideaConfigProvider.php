@@ -9,6 +9,7 @@ use Magento\Payment\Gateway\ConfigInterface;
 class GeideaConfigProvider implements ConfigProviderInterface {
 
     const CODE = 'geidea_payment';
+    const VAULT_CODE = 'geidea_payment_vault';
 
     private $config;
     private $session;

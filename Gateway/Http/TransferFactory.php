@@ -5,7 +5,7 @@ use Magento\Payment\Gateway\Http\TransferBuilder;
 use Magento\Payment\Gateway\Http\TransferFactoryInterface;
 use Magento\Payment\Gateway\Http\TransferInterface;
 
-class CaptureTransferFactory implements TransferFactoryInterface
+class TransferFactory implements TransferFactoryInterface
 {
     private $transferBuilder;
 
@@ -18,7 +18,7 @@ class CaptureTransferFactory implements TransferFactoryInterface
     public function create(array $request)
     {
         return $this->transferBuilder
-            ->setMethod('POST')
+            ->setMethod($request['method'])
             ->setHeaders(['Content-Type' => 'application/json'])
             ->setBody(json_encode($request['body'], JSON_UNESCAPED_SLASHES))
             ->setAuthUsername($request['auth']['username'])
