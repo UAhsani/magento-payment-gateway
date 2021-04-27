@@ -20,6 +20,10 @@
                 <merchantPassword></merchantPassword>
                 <currencies>EGP,SAR,USD</currencies>
             </geidea_payment>
+            <geidea_payment_vault>
+                <model>GeideaVaultFacade</model>
+                <title>Stored Cards (Geidea)</title>
+            </geidea_payment_vault>
         </payment>
     </default>
 </config>
