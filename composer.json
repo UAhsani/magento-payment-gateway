@@ -8,5 +8,11 @@
         "psr-4": {
             "Geidea\\Payment\\": ""
         }
+    },
+    "require": {
+        "magento/module-sales": "100.1.*",
+        "magento/module-payment": "100.1.*",
+        "magento/module-checkout": "100.1.*",
+        "magento/module-vault": "100.1.*"
     }
 }
