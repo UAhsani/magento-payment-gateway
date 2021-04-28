@@ -6,4 +6,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Vault\Model\Ui\TokensConfigProvider">
+        <arguments>
+            <argument name="tokenUiComponentProviders" xsi:type="array">
+                <item name="geidea_payment" xsi:type="object">Geidea\Payment\Model\Ui\TokenUiComponentProvider</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

@@ -118,11 +118,12 @@ class Callback extends AppAction implements
                         ->setIsTransactionClosed(0)
                         ->setTransactionAdditionalInfo('Response', json_encode($payload));
 
-                    $token = $payload['tokenId'];
+                    $token = $payload['order']['tokenId'];
 
                     if ($token) {
                         $paymentToken = $this->paymentTokenFactory->create(PaymentTokenFactoryInterface::TOKEN_TYPE_CREDIT_CARD);
                         $paymentToken->setGatewayToken($token);
+                        $paymentToken->setExpiresAt('2100-01-01'); // TODO: check this
 
                         $paymentToken->setTokenDetails(json_encode([
                             'type' => $this->config->getCcTypesMapper()[$transaction['paymentMethod']['brand']],

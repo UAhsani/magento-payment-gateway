@@ -31,7 +31,7 @@ class VaultSaleBodyBuilder implements BuilderInterface
             'body' => [
                 'amount' => round($order->getBaseGrandTotal(), 2),
                 'currency' => $order->getOrderCurrencyCode(),
-                'token' => $token
+                'tokenId' => $token->getGatewayToken()
             ]
         ];
 

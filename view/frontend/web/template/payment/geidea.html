@@ -22,6 +22,14 @@
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
         </div>
+        <div class="field choice">
+            <input type="checkbox"
+                class="checkbox"
+                data-bind="checked: saveCard"/>
+            <label class="label">
+                <span><!-- ko i18n: 'Save card for later use.'--><!-- /ko --></span>
+            </label>
+        </div>
         <div class="actions-toolbar">
             <div class="primary">
                 <button data-role="review-save"
