@@ -17,4 +17,11 @@ class Config extends \Magento\Payment\Gateway\Config\Config
     {
         return parent::getValue($name, $storeId);
     }
+
+    public function getCcTypesMapper()
+    {
+        $result = json_decode($this->getValue("cctypes_mapper"), true);
+
+        return is_array($result) ? $result : [];
+    }
 }

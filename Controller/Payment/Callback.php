@@ -15,6 +15,7 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\OrderFactory;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 use Magento\Sales\Model\Order\Payment\Transaction\ManagerInterface;
+use Magento\Vault\Api\Data\PaymentTokenFactoryInterface;
 use Psr\Log\LoggerInterface;
 
 class Callback extends AppAction implements
@@ -26,6 +27,7 @@ class Callback extends AppAction implements
     private $orderFactory;
     private $orderSender;
     private $managerInterface;
+    private $paymentTokenFactory;
     private $logger;
     
     public function __construct(
@@ -35,6 +37,7 @@ class Callback extends AppAction implements
         OrderFactory $orderFactory,
         OrderSender $orderSender,
         ManagerInterface $managerInterface,
+        PaymentTokenFactoryInterface $paymentTokenFactory,
         LoggerInterface $logger
     ) {
         parent::__construct($context);
@@ -43,6 +46,7 @@ class Callback extends AppAction implements
         $this->orderFactory = $orderFactory;
         $this->orderSender = $orderSender;
         $this->managerInterface = $managerInterface;
+        $this->paymentTokenFactory = $paymentTokenFactory;
         $this->logger = $logger;
     }
 
@@ -113,6 +117,22 @@ class Callback extends AppAction implements
                         ->setCurrencyCode($transaction['currency'])
                         ->setIsTransactionClosed(0)
                         ->setTransactionAdditionalInfo('Response', json_encode($payload));
+
+                    $token = $payload['tokenId'];
+
+                    if ($token) {
+                        $paymentToken = $this->paymentTokenFactory->create(PaymentTokenFactoryInterface::TOKEN_TYPE_CREDIT_CARD);
+                        $paymentToken->setGatewayToken($token);
+
+                        $paymentToken->setTokenDetails(json_encode([
+                            'type' => $this->config->getCcTypesMapper()[$transaction['paymentMethod']['brand']],
+                            'maskedCC' => substr($transaction['paymentMethod']['maskedCardNumber'], -4, 4),
+                            'expirationDate' => sprintf("%s/%s", $transaction['paymentMethod']['expiryDate']['month'], $transaction['paymentMethod']['expiryDate']['year'])
+                        ]));
+
+                        $extensionAttributes = $payment->getExtensionAttributes();
+                        $extensionAttributes->setVaultPaymentToken($paymentToken);
+                    }
                         
                     $payment->registerAuthorizationNotification($transaction['amount']);
 
