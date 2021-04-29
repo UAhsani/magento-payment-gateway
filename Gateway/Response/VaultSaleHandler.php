@@ -31,22 +31,16 @@ class VaultSaleHandler implements HandlerInterface
         
         $payment = $paymentDO->getPayment();
 
-        echo 'HANDLER';
-        echo json_encode($response);
-        die();
+        $this->setPaymentData($payment, $response);
 
-        /*$this->setPaymentData($payment, $response);
-
-        $captureTransaction = null;
+        $payTransaction = null;
         foreach ($response['order']['transactions'] as $transaction)
-            if (mb_strtolower($transaction["type"]) == "capture")
-                $captureTransaction = $transaction;
+            if (mb_strtolower($transaction["type"]) == "pay")
+                $payTransaction = $transaction;
 
         $payment
-            ->setTransactionId($captureTransaction['transactionId'])
+            ->setTransactionId($payTransaction['transactionId'])
             ->setIsTransactionClosed(0)
-            ->setParentTransactionId($payment->getAuthorizationTransaction()->getTxnId())
-            ->setShouldCloseParentTransaction(true)
-            ->setTransactionAdditionalInfo('Response', json_encode($response));*/
+            ->setTransactionAdditionalInfo('Response', json_encode($response));
     }
 }

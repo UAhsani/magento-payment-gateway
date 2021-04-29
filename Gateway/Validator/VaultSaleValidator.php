@@ -16,11 +16,7 @@ class VaultSaleValidator extends AbstractValidator
     {
         $response = SubjectReader::readResponse($validationSubject);
 
-        echo 'VALIDATOR';
-        echo json_encode($response);
-        die();
-
-        /*if ($response["responseCode"] != '000')
+        if ($response["responseCode"] != '000')
             return $this->createResult(false, [__(sprintf("%s: %s; %s: %s",
                 $response["responseCode"],
                 $response["responseMessage"],
@@ -32,19 +28,19 @@ class VaultSaleValidator extends AbstractValidator
         if (mb_strtolower($order["status"]) != "success")
             return $this->createResult(false, [__(sprintf("Incorrect order status: %s", $order["status"]))]);
 
-        if (mb_strtolower($order["detailedStatus"]) != "captured")
+        if (mb_strtolower($order["detailedStatus"]) != "paid")
             return $this->createResult(false, [__(sprintf("Incorrect status: %s", $order["detailedStatus"]))]);
 
         $transactions = $order["transactions"];
 
-        $captureTransaction = null;
+        $payTransaction = null;
         foreach ($transactions as $transaction)
-            if (mb_strtolower($transaction["type"]) == "capture")
-                $captureTransaction = $transaction;
+            if (mb_strtolower($transaction["type"]) == "pay")
+                $payTransaction = $transaction;
         
-        if (!$captureTransaction)
-            return $this->createResult(false, [__("Capture transaction not found")]);
+        if (!$payTransaction)
+            return $this->createResult(false, [__("Pay transaction not found")]);
 
-        return $this->createResult(true);*/
+        return $this->createResult(true);
     }
 }
