@@ -35,7 +35,7 @@ class VaultSaleValidator extends AbstractValidator
 
         $payTransaction = null;
         foreach ($transactions as $transaction)
-            if (mb_strtolower($transaction["type"]) == "pay")
+            if (mb_strtolower($transaction["type"]) == "pay" && mb_strtolower($transaction["status"]) == "success")
                 $payTransaction = $transaction;
         
         if (!$payTransaction)

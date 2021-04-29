@@ -39,7 +39,8 @@ class GeideaConfigProvider implements ConfigProviderInterface {
                         'reserveUrl' => $this->urlBuilder->getUrl($this->config->getValue("reserveUrl", $storeId)),
                         'authorizeUrl' => $this->urlBuilder->getUrl($this->config->getValue("authorizeUrl", $storeId)),
                         'callbackUrl' => $this->urlBuilder->getUrl($this->config->getValue("callbackUrl", $storeId))
-                    ]
+                    ],
+                    'vaultCode' => self::VAULT_CODE
                 ]
             ]
         ];

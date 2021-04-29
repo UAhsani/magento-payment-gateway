@@ -103,45 +103,44 @@ class Callback extends AppAction implements
     {
         $payment = $order->getPayment();
 
-        foreach ($payload['order']['transactions'] as $transaction) {
-            switch (mb_strtolower($transaction['type'])) {
-                case "authorization":
+        $authTransaction = null;
+        foreach ($payload['order']['transactions'] as $transaction)
+            if (mb_strtolower($transaction["type"]) == "authorization" && mb_strtolower($transaction["status"]) == "success")
+                $authTransaction = $transaction;
 
-                    if ($this->managerInterface->isTransactionExists($transaction['transactionId'], $payment->getId(), $order->getId()))
-                        return;
-                    
-                    $this->setPaymentData($payment, $payload);
-                    
-                    $payment
-                        ->setTransactionId($transaction['transactionId'])
-                        ->setCurrencyCode($transaction['currency'])
-                        ->setIsTransactionClosed(0)
-                        ->setTransactionAdditionalInfo('Response', json_encode($payload));
+        if (!$authTransaction)
+            return;
+        
+        if ($this->managerInterface->isTransactionExists($authTransaction['transactionId'], $payment->getId(), $order->getId()))
+            return;
+        
+        $this->setPaymentData($payment, $payload);
+        
+        $payment
+            ->setPreparedMessage("Geidea `authorization` callback received.")
+            ->setTransactionId($authTransaction['transactionId'])
+            ->setCurrencyCode($authTransaction['currency'])
+            ->setIsTransactionClosed(0)
+            ->setTransactionAdditionalInfo('Response', json_encode($payload));
 
-                    $token = $payload['order']['tokenId'];
+        $token = $payload['order']['tokenId'];
 
-                    if ($token) {
-                        $paymentToken = $this->paymentTokenFactory->create(PaymentTokenFactoryInterface::TOKEN_TYPE_CREDIT_CARD);
-                        $paymentToken->setGatewayToken($token);
-                        $paymentToken->setExpiresAt('2100-01-01'); // TODO: check this
+        if ($token) {
+            $paymentToken = $this->paymentTokenFactory->create(PaymentTokenFactoryInterface::TOKEN_TYPE_CREDIT_CARD);
+            $paymentToken->setGatewayToken($token);
+            $paymentToken->setExpiresAt($this->getExpirationDate($authTransaction['paymentMethod']['expiryDate']['year'], $authTransaction['paymentMethod']['expiryDate']['month']));
 
-                        $paymentToken->setTokenDetails(json_encode([
-                            'type' => $this->config->getCcTypesMapper()[$transaction['paymentMethod']['brand']],
-                            'maskedCC' => substr($transaction['paymentMethod']['maskedCardNumber'], -4, 4),
-                            'expirationDate' => sprintf("%s/%s", $transaction['paymentMethod']['expiryDate']['month'], $transaction['paymentMethod']['expiryDate']['year'])
-                        ]));
+            $paymentToken->setTokenDetails(json_encode([
+                'type' => $this->config->getCcTypesMapper()[$authTransaction['paymentMethod']['brand']],
+                'maskedCC' => substr($authTransaction['paymentMethod']['maskedCardNumber'], -4, 4),
+                'expirationDate' => sprintf("%s/%s", $authTransaction['paymentMethod']['expiryDate']['month'], $authTransaction['paymentMethod']['expiryDate']['year'])
+            ]));
 
-                        $extensionAttributes = $payment->getExtensionAttributes();
-                        $extensionAttributes->setVaultPaymentToken($paymentToken);
-                    }
-                        
-                    $payment->registerAuthorizationNotification($transaction['amount']);
-
-                    break;
-                default:
-                    break;
-            }
+            $extensionAttributes = $payment->getExtensionAttributes();
+            $extensionAttributes->setVaultPaymentToken($paymentToken);
         }
+            
+        $payment->registerAuthorizationNotification($authTransaction['amount']);
 
         $this->orderRepository->save($order);
     }
@@ -150,43 +149,28 @@ class Callback extends AppAction implements
     {
         $payment = $order->getPayment();
 
-        foreach ($payload['order']['transactions'] as $transaction) {
-            switch (mb_strtolower($transaction['type'])) {
+        $captureTransaction = null;
+        foreach ($payload['order']['transactions'] as $transaction)
+            if (mb_strtolower($transaction["type"]) == "capture" && mb_strtolower($transaction["status"]) == "success")
+                $captureTransaction = $transaction;
+        
+        if (!$captureTransaction)
+            return;
 
-                case "capture":
+        $this->setPaymentData($payment, $payload);
+        
+        $payment
+            ->setPreparedMessage("Geidea `capture` callback received.")
+            ->setTransactionId($captureTransaction['transactionId'])
+            ->setCurrencyCode($captureTransaction['currency'])
+            ->setIsTransactionClosed(0)
+            ->setParentTransactionId($payment->getAuthorizationTransaction()->getTxnId())
+            ->setShouldCloseParentTransaction(true)
+            ->setTransactionAdditionalInfo('Response', json_encode($payload));
 
-                    if ($this->managerInterface->isTransactionExists($transaction['transactionId'], $payment->getId(), $order->getId()))
-                        return;
-
-                    $this->setPaymentData($payment, $payload);
-                    
-                    $payment
-                        ->setTransactionId($transaction['transactionId'])
-                        ->setCurrencyCode($transaction['currency'])
-                        ->setIsTransactionClosed(0)
-                        ->setParentTransactionId($payment->getAuthorizationTransaction()->getTxnId())
-                        ->setShouldCloseParentTransaction(true)
-                        ->setTransactionAdditionalInfo('Response', json_encode($payload));
-
-                    $payment->registerCaptureNotification($transaction['amount'], true);
-
-                    break;
-                default:
-                    break;
-            }
-        }
+        $payment->registerCaptureNotification($captureTransaction['amount'], true);
 
         $this->orderRepository->save($order);
-
-        $invoice = $payment->getCreatedInvoice();
-
-        if ($invoice && !$order->getEmailSent()) {
-            $this->orderSender->send($order);
-            $order->addStatusHistoryComment(__('You notified customer about invoice #%1.', $invoice->getIncrementId()))
-                ->setIsCustomerNotified(true);
-                
-            $this->orderRepository->save($order);
-        }
     }
 
     public function execute() : ResultInterface
@@ -236,5 +220,21 @@ class Callback extends AppAction implements
         }
 
         return $result->setData($response);
+    }
+
+    private function getExpirationDate($year, $month)
+    {
+        $expDate = new \DateTime(
+            $year
+            . '-'
+            . $month
+            . '-'
+            . '01'
+            . ' '
+            . '00:00:00',
+            new \DateTimeZone('UTC')
+        );
+        $expDate->add(new \DateInterval('P1M'));
+        return $expDate->format('Y-m-d 00:00:00');
     }
 }

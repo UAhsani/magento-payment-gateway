@@ -35,7 +35,7 @@ class CaptureValidator extends AbstractValidator
 
         $captureTransaction = null;
         foreach ($transactions as $transaction)
-            if (mb_strtolower($transaction["type"]) == "capture")
+            if (mb_strtolower($transaction["type"]) == "capture" && mb_strtolower($transaction["status"]) == "success")
                 $captureTransaction = $transaction;
         
         if (!$captureTransaction)

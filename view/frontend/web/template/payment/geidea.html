@@ -22,14 +22,16 @@
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
         </div>
+        <!-- ko if: (isVaultEnabled())-->
         <div class="field choice">
             <input type="checkbox"
                 class="checkbox"
-                data-bind="checked: saveCard"/>
+                data-bind="checked: vaultEnabler.isActivePaymentTokenEnabler"/>
             <label class="label">
-                <span><!-- ko i18n: 'Save card for later use.'--><!-- /ko --></span>
+                <span><!-- ko i18n: 'Save for later use.'--><!-- /ko --></span>
             </label>
         </div>
+        <!-- /ko -->
         <div class="actions-toolbar">
             <div class="primary">
                 <button data-role="review-save"

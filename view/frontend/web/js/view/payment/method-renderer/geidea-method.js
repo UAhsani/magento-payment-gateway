@@ -5,20 +5,30 @@ define([
         'Magento_Checkout/js/view/payment/default',
         'Magento_Ui/js/model/messageList',
         'Magento_Checkout/js/model/payment/additional-validators',
-        'Geidea_Payment/js/action/set-payment-method'
+        'Geidea_Payment/js/action/set-payment-method',
+        'Magento_Vault/js/view/payment/vault-enabler'
     ],
     function (
         ko, $, $t,
         Component, messageList, additionalValidators,
-        setPaymentMethodAction) {
+        setPaymentMethodAction, VaultEnabler) {
         'use strict';
 
         return Component.extend({
             defaults: {
                 template: 'Geidea_Payment/payment/geidea',
                 paymentActionError: $t('Something went wrong with your request. Please try again later.'),
-                processing: ko.observable(false),
-                saveCard: ko.observable(true)
+                processing: ko.observable(false)
+            },
+
+            initialize: function () {
+                var self = this;
+    
+                self._super();
+                this.vaultEnabler = new VaultEnabler();
+                this.vaultEnabler.setPaymentCode(this.getVaultCode());
+                
+                return self;
             },
 
             getCode: function() {
@@ -29,10 +39,21 @@ define([
                 return true;
             },
 
+            getData: function () {
+                var data = {
+                    'method': this.getCode(),
+                    'additional_data': { }
+                };
+    
+                this.vaultEnabler.visitAdditionalData(data);
+    
+                return data;
+            },
+
             setPaymentMethod: function (reject) {
                 var deferred = $.Deferred();
 
-                setPaymentMethodAction(this.messageContainer).done(function () {
+                setPaymentMethodAction(this.messageContainer, this.getData()).done(function () {
                     return deferred.resolve();
                 }).fail(function (response) {
                     var error;
@@ -95,7 +116,7 @@ define([
                     merchantReferenceId: data.orderId,
                     merchantLogoUrl: this.clientConfig.logoUrl,
                     paymentOperation: "PreAuthorize",
-                    cardOnFile: this.saveCard(),
+                    cardOnFile: this.isVaultEnabled() && this.vaultEnabler.isActivePaymentTokenEnabler(),
                     styles: { "headerColor": this.clientConfig.headerColor },
                     email: {
                         email: data.customerEmail
@@ -163,6 +184,14 @@ define([
                 messageList.addErrorMessage({
                     message: message
                 });
+            },
+
+            isVaultEnabled: function () {
+                return this.vaultEnabler.isVaultEnabled();
+            },
+    
+            getVaultCode: function () {
+                return this.vaultCode;
             }
         });
     }
