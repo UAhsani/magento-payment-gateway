@@ -152,4 +152,22 @@
             <argument name="handler" xsi:type="object">Geidea\Payment\Gateway\Response\VaultSaleHandler</argument>
         </arguments>
     </virtualType>
+
+    <!-- Admin Geidea Tokens -->
+    <type name="Geidea\Payment\Ui\DataProvider\GeideaTokens\ListingDataProvider">
+        <plugin name="geidea_tokens_attributes" type="Geidea\Payment\Plugin\AddAttributesToUiDataProvider"/>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="geidea_tokens_listing_data_source" xsi:type="string">GeideaTokenCollection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="GeideaTokenCollection" type="Geidea\Payment\Ui\DataProvider\GeideaTokens\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">vault_payment_token</argument>
+            <argument name="resourceModel" xsi:type="string">Geidea\Payment\Model\ResourceModel\GeideaToken</argument>
+        </arguments>
+    </virtualType>
 </config>
