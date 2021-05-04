@@ -112,28 +112,6 @@
         <label translate="true">Created</label>
       </settings>
     </column>
-    <column name="is_active">
-      <argument name="data" xsi:type="array">
-        <item name="options" xsi:type="object">Magento\Cms\Model\Block\Source\IsActive</item>
-        <item name="config" xsi:type="array">
-            <item name="options" xsi:type="array">
-                <item name="0" xsi:type="array">
-                    <item name="value" xsi:type="string">0</item>
-                    <item name="label" xsi:type="string">Not Active</item>
-                </item>
-                <item name="1" xsi:type="array">
-                    <item name="value" xsi:type="string">1</item>
-                    <item name="label" xsi:type="string">Active</item>
-                </item>
-            </item>
-            <item name="dataType" xsi:type="string">select</item>
-            <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
-            <item name="editor" xsi:type="string">select</item>
-            <item name="filter" xsi:type="string">select</item>
-            <item name="label" xsi:type="string" translate="true">Is Active</item>
-        </item>
-      </argument>
-    </column>
     <column name="is_visible">
       <argument name="data" xsi:type="array">
         <item name="options" xsi:type="object">Magento\Cms\Model\Block\Source\IsActive</item>

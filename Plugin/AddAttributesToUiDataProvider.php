@@ -28,6 +28,7 @@ class AddAttributesToUiDataProvider
         );
 
         $result->getSelect()->where('main_table.payment_method_code = "' . \Geidea\Payment\Model\Ui\GeideaConfigProvider::CODE . '"');
+        $result->getSelect()->where('main_table.is_active = "1"');
 
         return $result;
     }
