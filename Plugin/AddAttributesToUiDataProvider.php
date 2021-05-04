@@ -3,11 +3,17 @@ namespace Geidea\Payment\Plugin;
 
 use Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult;
 
+use Geidea\Payment\Gateway\Config\Config;
 use Geidea\Payment\Ui\DataProvider\GeideaTokens\ListingDataProvider;
 
 class AddAttributesToUiDataProvider
 {
-    public function __construct() { }
+    private $config;
+    
+    public function __construct(Config $config)
+    {
+        $this->config = $config;
+    }
 
     public function afterGetSearchResult(ListingDataProvider $subject, SearchResult $result)
     {
@@ -21,6 +27,29 @@ class AddAttributesToUiDataProvider
             ['customer_email' => 'cus.email']
         );
 
+        $result->getSelect()->where('main_table.payment_method_code = "' . \Geidea\Payment\Model\Ui\GeideaConfigProvider::CODE . '"');
+
         return $result;
+    }
+
+    public function afterGetData(ListingDataProvider $subject, $data)
+    {
+        foreach ($data['items'] as &$item) {
+            $decoded = json_decode($item['details'], true);
+
+            $item['card'] = __("%1 ending in %2 (expires %3)",
+                $this->getBrandByCode($decoded['type']),
+                $decoded['maskedCC'],
+                $decoded['expirationDate']
+            );
+        }
+        
+        return $data;
+    }
+
+    private function getBrandByCode($code) {
+        $mapper = $this->config->getCcTypesMapper();
+
+        return array_search($code, $mapper) ?: "card";
     }
 }
