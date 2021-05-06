@@ -79,7 +79,7 @@
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="GeideaVaultFacade" type="Magento\Vault\Model\Method\Vault">
+    <virtualType name="GeideaVaultFacade" type="Geidea\Payment\Model\Method\GeideaVaultFacade">
         <arguments>
             <argument name="config" xsi:type="object">GeideaVaultConfig</argument>
             <argument name="valueHandlerPool" xsi:type="object">GeideaVaultValueHandlerPool</argument>
