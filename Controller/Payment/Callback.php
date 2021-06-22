@@ -197,6 +197,9 @@ class Callback extends AppAction implements
             if (!$order->getId())
                 throw new \Exception(sprintf('the "%s" order ID is incorrect. Verify the ID and try again.', $merchantReferenceId));
 
+            if (mb_strtolower($order->getOrderCurrencyCode()) != mb_strtolower($payload['order']['currency']))
+                throw new \Exception('incorrect currency');
+            
             if (round($order->getBaseGrandTotal(), 2) > $payload['order']['amount'])
                 throw new \Exception('incorrect amount');
 
