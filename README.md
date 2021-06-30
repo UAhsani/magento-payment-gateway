@@ -1,1 +1,1 @@
-# magento-payment-gateway
+# magento payment gateway
