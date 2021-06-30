@@ -1,8 +1,7 @@
 {
-    "name": "geidea/payment",
+    "name": "geidea/magento2-payment-module",
     "description": "Geidea integration for Magento 2",
     "type": "magento2-module",
-    "version": "1.0.0",
     "autoload": {
         "files": [ "registration.php" ],
         "psr-4": {
