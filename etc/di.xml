@@ -1,0 +1,173 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- GeideaFacade -->
+    <virtualType name="GeideaConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Geidea\Payment\Model\Ui\GeideaConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+    <type name="Geidea\Payment\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">GeideaConfig</argument>
+        </arguments>
+    </type>
+    <virtualType name="GeideaConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">GeideaConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GeideaValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">GeideaConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GeideaValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="currency" xsi:type="string">Geidea\Payment\Gateway\Validator\CurrencyValidator</item>
+                <item name="availability" xsi:type="string">Geidea\Payment\Gateway\Validator\AvailabilityValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GeideaCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="capture" xsi:type="string">GeideaCaptureCommand</item>
+                <item name="vault_sale" xsi:type="string">GeideaVaultSaleCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GeideaFacade" type="Geidea\Payment\Model\Method\GeideaFacade">
+        <arguments>
+            <argument name="code" xsi:type="const">Geidea\Payment\Model\Ui\GeideaConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Geidea\Payment\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">GeideaValueHandlerPool</argument>
+            <argument name="validatorPool" xsi:type="object">GeideaValidatorPool</argument>
+            <argument name="commandPool" xsi:type="object">GeideaCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- GeideaVaultFacade -->
+    <virtualType name="GeideaVaultConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Geidea\Payment\Model\Ui\GeideaConfigProvider::VAULT_CODE</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GeideaVaultConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">GeideaVaultConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GeideaVaultValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">GeideaVaultConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GeideaVaultCommandManager" type="Magento\Payment\Gateway\Command\CommandManager">
+        <arguments>
+            <argument name="commandPool" xsi:type="object">GeideaCommandPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GeideaVaultCommandManagerPool" type="Magento\Payment\Gateway\Command\CommandManagerPool">
+        <arguments>
+            <argument name="executors" xsi:type="array">
+                <item name="geidea_payment" xsi:type="string">GeideaVaultCommandManager</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GeideaVaultFacade" type="Geidea\Payment\Model\Method\GeideaVaultFacade">
+        <arguments>
+            <argument name="config" xsi:type="object">GeideaVaultConfig</argument>
+            <argument name="valueHandlerPool" xsi:type="object">GeideaVaultValueHandlerPool</argument>
+            <argument name="vaultProvider" xsi:type="object">GeideaFacade</argument>
+            <argument name="code" xsi:type="const">Geidea\Payment\Model\Ui\GeideaConfigProvider::VAULT_CODE</argument>
+            <argument name="commandManagerPool" xsi:type="object">GeideaVaultCommandManagerPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- UiConfig -->
+    <type name="Geidea\Payment\Model\Ui\GeideaConfigProvider">
+        <arguments>
+            <argument name="config" xsi:type="object">GeideaConfig</argument>
+        </arguments>
+    </type>
+    
+    <!-- AuthBuilder -->
+    <type name="Geidea\Payment\Gateway\Request\AuthBuilder">
+        <arguments>
+            <argument name="config" xsi:type="object">GeideaConfig</argument>
+        </arguments>
+    </type>
+    
+    <!-- CaptureCommand -->
+    <type name="Geidea\Payment\Gateway\Request\CaptureUrlBuilder">
+        <arguments>
+            <argument name="config" xsi:type="object">GeideaConfig</argument>
+        </arguments>
+    </type>
+    <virtualType name="GeideaCaptureRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="auth" xsi:type="string">Geidea\Payment\Gateway\Request\AuthBuilder</item>
+                <item name="captureUrl" xsi:type="string">Geidea\Payment\Gateway\Request\CaptureUrlBuilder</item>
+                <item name="capture" xsi:type="string">Geidea\Payment\Gateway\Request\CaptureBodyBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GeideaCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">GeideaCaptureRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Geidea\Payment\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Geidea\Payment\Gateway\Http\Client\Client</argument>
+            <argument name="validator" xsi:type="object">Geidea\Payment\Gateway\Validator\CaptureValidator</argument>
+            <argument name="handler" xsi:type="object">Geidea\Payment\Gateway\Response\CaptureHandler</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- VaultSaleCommand -->
+    <type name="Geidea\Payment\Gateway\Request\VaultSaleUrlBuilder">
+        <arguments>
+            <argument name="config" xsi:type="object">GeideaConfig</argument>
+        </arguments>
+    </type>
+    <virtualType name="GeideaVaultSaleRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="auth" xsi:type="string">Geidea\Payment\Gateway\Request\AuthBuilder</item>
+                <item name="vaultSaleUrl" xsi:type="string">Geidea\Payment\Gateway\Request\VaultSaleUrlBuilder</item>
+                <item name="vaultSale" xsi:type="string">Geidea\Payment\Gateway\Request\VaultSaleBodyBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GeideaVaultSaleCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">GeideaVaultSaleRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Geidea\Payment\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Geidea\Payment\Gateway\Http\Client\Client</argument>
+            <argument name="validator" xsi:type="object">Geidea\Payment\Gateway\Validator\VaultSaleValidator</argument>
+            <argument name="handler" xsi:type="object">Geidea\Payment\Gateway\Response\VaultSaleHandler</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Admin Geidea Tokens -->
+    <type name="Geidea\Payment\Ui\DataProvider\GeideaTokens\ListingDataProvider">
+        <plugin name="geidea_tokens_attributes" type="Geidea\Payment\Plugin\AddAttributesToUiDataProvider"/>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="geidea_tokens_listing_data_source" xsi:type="string">GeideaTokenCollection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="GeideaTokenCollection" type="Geidea\Payment\Ui\DataProvider\GeideaTokens\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">vault_payment_token</argument>
+            <argument name="resourceModel" xsi:type="string">Geidea\Payment\Model\ResourceModel\GeideaToken</argument>
+        </arguments>
+    </virtualType>
+</config>
