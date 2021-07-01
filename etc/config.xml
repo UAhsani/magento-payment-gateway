@@ -5,7 +5,7 @@
         <payment>
             <geidea_payment>
                 <active>0</active>
-                <title>Geidea Payment</title>
+                <title>Geidea Online Payments</title>
                 <logoUrl></logoUrl>
                 <headerColor></headerColor>
                 <model>GeideaFacade</model>
