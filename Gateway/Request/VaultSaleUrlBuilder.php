@@ -15,8 +15,8 @@ class VaultSaleUrlBuilder implements BuilderInterface
 
     public function __construct(
         SubjectReader $subjectReader,
-        ConfigInterface $config)
-    {
+        ConfigInterface $config
+    ) {
         $this->subjectReader = $subjectReader;
         $this->config = $config;
     }

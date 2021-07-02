@@ -6,10 +6,6 @@ use Magento\Payment\Gateway\Response\HandlerInterface;
 
 class CaptureHandler implements HandlerInterface
 {
-
-    public function __construct()
-    { }
-
     private function setPaymentData($payment, $payload)
     {
         $order = $payload['order'];
@@ -34,9 +30,13 @@ class CaptureHandler implements HandlerInterface
         $this->setPaymentData($payment, $response);
 
         $captureTransaction = null;
-        foreach ($response['order']['transactions'] as $transaction)
-            if (mb_strtolower($transaction["type"]) == "capture" && mb_strtolower($transaction["status"]) == "success")
+        foreach ($response['order']['transactions'] as $transaction) {
+            if (mb_strtolower($transaction["type"]) == "capture" &&
+                mb_strtolower($transaction["status"]) == "success"
+            ) {
                 $captureTransaction = $transaction;
+            }
+        }
 
         $payment
             ->setTransactionId($captureTransaction['transactionId'])

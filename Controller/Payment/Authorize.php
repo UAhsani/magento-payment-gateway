@@ -56,8 +56,9 @@ class Authorize extends AbstractAction
     
     private function getCheckoutMethod($quote)
     {
-        if ($this->customerSession->isLoggedIn())
+        if ($this->customerSession->isLoggedIn()) {
             return \Magento\Checkout\Model\Type\Onepage::METHOD_CUSTOMER;
+        }
         
         if (!$quote->getCheckoutMethod()) {
             if ($this->checkoutData->isAllowedGuestCheckout($quote)) {

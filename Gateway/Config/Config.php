@@ -13,11 +13,6 @@ class Config extends \Magento\Payment\Gateway\Config\Config
         parent::__construct($scopeConfig, \Geidea\Payment\Model\Ui\GeideaConfigProvider::CODE, $pathPattern);
     }
 
-    public function getValue($name, $storeId = null)
-    {
-        return parent::getValue($name, $storeId);
-    }
-
     public function getCcTypesMapper()
     {
         $result = json_decode($this->getValue("cctypes_mapper"), true);
