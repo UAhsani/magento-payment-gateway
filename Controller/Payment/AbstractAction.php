@@ -37,14 +37,16 @@ abstract class AbstractAction extends AppAction implements
         $this->checkoutSession = $checkoutSession;
     }
     
-    protected function getQuote($quoteId) {
+    protected function getQuote($quoteId)
+    {
         if ($quoteId) {
             $quote = $this->userContext->getUserId()
                 ? $this->cartRepository->get($quoteId)
                 : $this->guestCartRepository->get($quoteId);
 
-            if ((int)$quote->getCustomer()->getId() === (int)$this->userContext->getUserId())
+            if ((int)$quote->getCustomer()->getId() === (int)$this->userContext->getUserId()) {
                 return $quote;
+            }
         }
 
         $quoteId = $this->genericSession->getQuoteId();
@@ -59,7 +61,8 @@ abstract class AbstractAction extends AppAction implements
         return $this->checkoutSession->getQuote();
     }
 
-    protected function checkQuote($quote) {
+    protected function checkQuote($quote)
+    {
         if (!$quote->hasItems() || $quote->getHasError()) {
             $this->getResponse()->setStatusHeader(403, '1.1', 'Forbidden');
             throw new LocalizedException(__('We can\'t initialize Checkout.'));

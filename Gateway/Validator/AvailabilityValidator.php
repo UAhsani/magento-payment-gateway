@@ -23,19 +23,22 @@ class AvailabilityValidator extends AbstractValidator
     {
         $quote = $validationSubject['quote'];
 
-        if ($quote === null)
+        if ($quote === null) {
             return $this->createResult(false);
+        }
         
         $storeId = $quote->getStoreId();
         $amount = $quote->getBaseGrandTotal();
 
         $minOrderTotal = $this->config->getValue('minOrderTotal', $storeId);
-        if (!empty($minOrderTotal) && $amount < $minOrderTotal)
+        if (!empty($minOrderTotal) && $amount < $minOrderTotal) {
             return $this->createResult(false);
+        }
         
         $maxOrderTotal = $this->config->getValue('maxOrderTotal', $storeId);
-        if (!empty($maxOrderTotal) && $amount > $maxOrderTotal)
+        if (!empty($maxOrderTotal) && $amount > $maxOrderTotal) {
             return $this->createResult(false);
+        }
 
         return $this->createResult(true);
     }

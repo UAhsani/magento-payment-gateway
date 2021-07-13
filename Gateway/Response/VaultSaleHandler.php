@@ -6,10 +6,6 @@ use Magento\Payment\Gateway\Response\HandlerInterface;
 
 class VaultSaleHandler implements HandlerInterface
 {
-
-    public function __construct()
-    { }
-
     private function setPaymentData($payment, $payload)
     {
         $order = $payload['order'];
@@ -34,9 +30,11 @@ class VaultSaleHandler implements HandlerInterface
         $this->setPaymentData($payment, $response);
 
         $payTransaction = null;
-        foreach ($response['order']['transactions'] as $transaction)
-            if (mb_strtolower($transaction["type"]) == "pay" && mb_strtolower($transaction["status"]) == "success")
+        foreach ($response['order']['transactions'] as $transaction) {
+            if (mb_strtolower($transaction["type"]) == "pay" && mb_strtolower($transaction["status"]) == "success") {
                 $payTransaction = $transaction;
+            }
+        }
 
         $payment
             ->setTransactionId($payTransaction['transactionId'])

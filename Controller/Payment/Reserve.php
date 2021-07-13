@@ -76,13 +76,19 @@ class Reserve extends AbstractAction
             $response['customerEmail'] = $billingAddress->getEmail();
             $response['address'] = [
                 'shipping' => [
-                    'country' => $this->countryInformation->getCountryInfo($shippingAddress->getCountryId())->getThreeLetterAbbreviation(),
+                    'country' => $this
+                        ->countryInformation
+                        ->getCountryInfo($shippingAddress->getCountryId())
+                        ->getThreeLetterAbbreviation(),
                     'street' => implode(' ', $shippingAddress->getStreet()),
                     'city' => $shippingAddress->getCity(),
                     'postcode' => $shippingAddress->getPostcode()
                 ],
                 'billing' => [
-                    'country' => $this->countryInformation->getCountryInfo($billingAddress->getCountryId())->getThreeLetterAbbreviation(),
+                    'country' => $this
+                        ->countryInformation
+                        ->getCountryInfo($billingAddress->getCountryId())
+                        ->getThreeLetterAbbreviation(),
                     'street' => implode(' ', $billingAddress->getStreet()),
                     'city' => $billingAddress->getCity(),
                     'postcode' => $billingAddress->getPostcode()

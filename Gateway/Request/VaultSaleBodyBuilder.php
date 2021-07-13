@@ -24,8 +24,9 @@ class VaultSaleBodyBuilder implements BuilderInterface
         $extensionAttributes = $payment->getExtensionAttributes();
 
         $token = $extensionAttributes->getVaultPaymentToken();
-        if ($token === null)
+        if ($token === null) {
             throw new CommandException(__('The Payment Token is not available to perform the request.'));
+        }
 
         $result = [
             'body' => [

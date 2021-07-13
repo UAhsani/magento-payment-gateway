@@ -15,34 +15,6 @@ use Magento\Framework\Serialize\Serializer\Json;
 
 class GeideaVaultFacade extends \Magento\Vault\Model\Method\Vault
 {
-    public function __construct(
-        ConfigInterface $config,
-        ConfigFactoryInterface $configFactory,
-        ObjectManagerInterface $objectManager,
-        MethodInterface $vaultProvider,
-        ManagerInterface $eventManager,
-        ValueHandlerPoolInterface $valueHandlerPool,
-        Command\CommandManagerPoolInterface $commandManagerPool,
-        PaymentTokenManagementInterface $tokenManagement,
-        OrderPaymentExtensionInterfaceFactory $paymentExtensionFactory,
-        $code,
-        Json $jsonSerializer = null
-    ) {
-        parent::__construct(
-            $config,
-            $configFactory,
-            $objectManager,
-            $vaultProvider,
-            $eventManager,
-            $valueHandlerPool,
-            $commandManagerPool,
-            $tokenManagement,
-            $paymentExtensionFactory,
-            $code,
-            $jsonSerializer
-        );
-    }
-
     public function getConfigPaymentAction()
     {
         return $this->getConfigData('payment_action');

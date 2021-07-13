@@ -11,6 +11,7 @@ use Magento\Framework\App\Request\InvalidRequestException;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\OrderFactory;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
@@ -80,8 +81,9 @@ class Callback extends AppAction implements
         
         $result_signature = base64_encode($hash);
 
-        if ($result_signature != $payload['signature'])
-            throw new \Exception('Invalid signature');
+        if ($result_signature != $payload['signature']) {
+            throw new LocalizedException(__('Invalid signature'));
+        }
     }
 
     private function setPaymentData($payment, $payload)
@@ -104,15 +106,26 @@ class Callback extends AppAction implements
         $payment = $order->getPayment();
 
         $authTransaction = null;
-        foreach ($payload['order']['transactions'] as $transaction)
-            if (mb_strtolower($transaction["type"]) == "authorization" && mb_strtolower($transaction["status"]) == "success")
+        foreach ($payload['order']['transactions'] as $transaction) {
+            if (mb_strtolower($transaction["type"]) == "authorization" &&
+                mb_strtolower($transaction["status"]) == "success"
+            ) {
                 $authTransaction = $transaction;
+            }
+        }
 
-        if (!$authTransaction)
+        if (!$authTransaction) {
             return;
+        }
         
-        if ($this->managerInterface->isTransactionExists($authTransaction['transactionId'], $payment->getId(), $order->getId()))
+        if ($this->managerInterface->isTransactionExists(
+            $authTransaction['transactionId'],
+            $payment->getId(),
+            $order->getId()
+        )
+        ) {
             return;
+        }
         
         $this->setPaymentData($payment, $payload);
         
@@ -128,12 +141,21 @@ class Callback extends AppAction implements
         if ($token) {
             $paymentToken = $this->paymentTokenFactory->create(PaymentTokenFactoryInterface::TOKEN_TYPE_CREDIT_CARD);
             $paymentToken->setGatewayToken($token);
-            $paymentToken->setExpiresAt($this->getExpirationDate($authTransaction['paymentMethod']['expiryDate']['year'], $authTransaction['paymentMethod']['expiryDate']['month']));
+            $paymentToken->setExpiresAt(
+                $this->getExpirationDate(
+                    $authTransaction['paymentMethod']['expiryDate']['year'],
+                    $authTransaction['paymentMethod']['expiryDate']['month']
+                )
+            );
 
             $paymentToken->setTokenDetails(json_encode([
                 'type' => $this->config->getCcTypesMapper()[$authTransaction['paymentMethod']['brand']],
                 'maskedCC' => substr($authTransaction['paymentMethod']['maskedCardNumber'], -4, 4),
-                'expirationDate' => sprintf("%s/%s", $authTransaction['paymentMethod']['expiryDate']['month'], $authTransaction['paymentMethod']['expiryDate']['year'])
+                'expirationDate' => sprintf(
+                    "%s/%s",
+                    $authTransaction['paymentMethod']['expiryDate']['month'],
+                    $authTransaction['paymentMethod']['expiryDate']['year']
+                )
             ]));
 
             $extensionAttributes = $payment->getExtensionAttributes();
@@ -150,12 +172,17 @@ class Callback extends AppAction implements
         $payment = $order->getPayment();
 
         $captureTransaction = null;
-        foreach ($payload['order']['transactions'] as $transaction)
-            if (mb_strtolower($transaction["type"]) == "capture" && mb_strtolower($transaction["status"]) == "success")
+        foreach ($payload['order']['transactions'] as $transaction) {
+            if (mb_strtolower($transaction["type"]) == "capture" &&
+                mb_strtolower($transaction["status"]) == "success"
+            ) {
                 $captureTransaction = $transaction;
+            }
+        }
         
-        if (!$captureTransaction)
+        if (!$captureTransaction) {
             return;
+        }
 
         $this->setPaymentData($payment, $payload);
         
@@ -189,29 +216,39 @@ class Callback extends AppAction implements
 
             $merchantReferenceId = $payload['order']['merchantReferenceId'];
 
-            if (!$merchantReferenceId)
-                throw new \Exception('`merchantReferenceId` is null');
+            if (!$merchantReferenceId) {
+                throw new LocalizedException(__('`merchantReferenceId` is null'));
+            }
 
             $order = $this->orderFactory->create()->loadByIncrementId($merchantReferenceId);
 
-            if (!$order->getId())
-                throw new \Exception(sprintf('the "%s" order ID is incorrect. Verify the ID and try again.', $merchantReferenceId));
+            if (!$order->getId()) {
+                throw new LocalizedException(
+                    __(
+                        sprintf('the "%s" order ID is incorrect. Verify the ID and try again.', $merchantReferenceId)
+                    )
+                );
+            }
 
-            if (mb_strtolower($order->getOrderCurrencyCode()) != mb_strtolower($payload['order']['currency']))
-                throw new \Exception('incorrect currency');
+            if (mb_strtolower($order->getOrderCurrencyCode()) != mb_strtolower($payload['order']['currency'])) {
+                throw new LocalizedException(__('incorrect currency'));
+            }
             
-            if (round($order->getBaseGrandTotal(), 2) > $payload['order']['amount'])
-                throw new \Exception('incorrect amount');
+            if (round($order->getBaseGrandTotal(), 2) > $payload['order']['amount']) {
+                throw new LocalizedException(__('incorrect amount'));
+            }
 
-            if (mb_strtolower($payload['order']["status"]) != "success")
-                throw new \Exception('incorrect order state');
+            if (mb_strtolower($payload['order']["status"]) != "success") {
+                throw new LocalizedException(__('incorrect order state'));
+            }
             
-            if (mb_strtolower($payload['order']["detailedStatus"]) == "authorized")
+            if (mb_strtolower($payload['order']["detailedStatus"]) == "authorized") {
                 $this->processAuthorization($order, $payload);
-            elseif (mb_strtolower($payload['order']["detailedStatus"]) == "captured")
+            } elseif (mb_strtolower($payload['order']["detailedStatus"]) == "captured") {
                 $this->processCapture($order, $payload);
-            else
-                throw new \Exception('incorrect detailed state');
+            } else {
+                throw new LocalizedException(__('incorrect detailed state'));
+            }
 
         } catch (\Exception $exception) {
             $this->logger->critical($exception);

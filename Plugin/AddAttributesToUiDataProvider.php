@@ -27,8 +27,12 @@ class AddAttributesToUiDataProvider
             ['customer_email' => 'cus.email']
         );
 
-        $result->getSelect()->where('main_table.payment_method_code = "' . \Geidea\Payment\Model\Ui\GeideaConfigProvider::CODE . '"');
-        $result->getSelect()->where('main_table.is_active = "1"');
+        $result
+            ->getSelect()
+            ->where('main_table.payment_method_code = "' . \Geidea\Payment\Model\Ui\GeideaConfigProvider::CODE . '"');
+        $result
+            ->getSelect()
+            ->where('main_table.is_active = "1"');
 
         return $result;
     }
@@ -38,7 +42,8 @@ class AddAttributesToUiDataProvider
         foreach ($data['items'] as &$item) {
             $decoded = json_decode($item['details'], true);
 
-            $item['card'] = __("%1 ending in %2 (expires %3)",
+            $item['card'] = __(
+                "%1 ending in %2 (expires %3)",
                 $this->getBrandByCode($decoded['type']),
                 $decoded['maskedCC'],
                 $decoded['expirationDate']
@@ -48,7 +53,8 @@ class AddAttributesToUiDataProvider
         return $data;
     }
 
-    private function getBrandByCode($code) {
+    private function getBrandByCode($code)
+    {
         $mapper = $this->config->getCcTypesMapper();
 
         return array_search($code, $mapper) ?: "card";

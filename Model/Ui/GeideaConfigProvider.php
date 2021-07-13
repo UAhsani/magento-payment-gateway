@@ -6,7 +6,8 @@ use Magento\Framework\Session\SessionManagerInterface;
 use Magento\Framework\UrlInterface;
 use Magento\Payment\Gateway\ConfigInterface;
 
-class GeideaConfigProvider implements ConfigProviderInterface {
+class GeideaConfigProvider implements ConfigProviderInterface
+{
 
     const CODE = 'geidea_payment';
     const VAULT_CODE = 'geidea_payment_vault';
@@ -25,7 +26,8 @@ class GeideaConfigProvider implements ConfigProviderInterface {
         $this->urlBuilder = $urlBuilder;
     }
 
-    public function getConfig() {
+    public function getConfig()
+    {
 
         $storeId = $this->session->getStoreId();
 

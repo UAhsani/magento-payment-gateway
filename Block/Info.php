@@ -10,7 +10,7 @@ class Info extends ConfigurableInfo
     
     protected function getLabel($field)
     {
-        if (!$this->fields)
+        if (!$this->fields) {
             $this->fields = [
                 'orderId' => __('Order Id'),
                 'currency' => __('Currency'),
@@ -22,6 +22,7 @@ class Info extends ConfigurableInfo
                 'createdDate' => __('Created Date'),
                 'updatedDate' => __('Updated Date')
             ];
+        }
         
         return $this->fields[$field] ?? '';
     }

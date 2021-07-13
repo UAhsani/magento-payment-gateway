@@ -46,6 +46,7 @@ class GeideaFacade extends \Magento\Payment\Model\Method\Adapter
 
     public function isAvailable(CartInterface $quote = null)
     {
-        return parent::isAvailable($quote) && $this->validatorPool->get('availability')->validate(['quote' => $quote])->isValid();
+        return parent::isAvailable($quote) &&
+            $this->validatorPool->get('availability')->validate(['quote' => $quote])->isValid();
     }
 }
