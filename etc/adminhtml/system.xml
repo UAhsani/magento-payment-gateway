@@ -56,7 +56,7 @@
                         <validate>required-entry</validate>
                         <config_path>payment/geidea_payment/merchantPassword</config_path>
                     </field>
-                    <field id="logoUrl" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <field id="logoUrl" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                         <label>Logo Url</label>
                         <comment>Expected formats that will display the logo: PNG, JPEG, JPG, SVG, GIF. Max image size: 40X100</comment>
                         <frontend_class>validate-url</frontend_class>

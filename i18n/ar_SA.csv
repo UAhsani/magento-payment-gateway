@@ -1,0 +1,59 @@
+Configure,اعداد
+Close,اغلاق
+Order Id,رقم الطلب
+Currency,العملة
+Status,الحالة
+Customer Email,البريد الالكتروني للعميل
+Authorized Amount,المبلغ المفوض
+Captured Amount,المبلغ المحصل
+Refunded Amount,المبلغ المسترد
+Created Date,تاريخ الانشاء
+Updated Date,تاريخ التحديث
+Geidea Tokens,رموز البطاقات المخزنة بجيديا
+Page not found,لم توجد الصفحة
+A total of %1 record(s) have been deleted.,تم حذف %1 من الطلبات
+We can't initialize Checkout.,لم نستطع تهيئة  بوابة الدفع
+"Geidea can't process orders with a zero balance due. To finish your purchase, please go through the standard checkout process.",بوابة الدفع لا تستقبل عمليات بالمبلغ صفر. لاستكمال عملية الشراء، يرجى محاولة الدفع عن طريق البوابة مجدداً
+"Sorry, but something went wrong",معذرة، حدث خطأ ما
+Invalid signature,التوقيع الالكتروني غير صالح
+Geidea `authorization` callback received.,ارسال التفويض لم يصل
+Geidea `capture` callback received.,الرسال التحصيل لم يصل
+`merchantReferenceId` is null,مُعرِّف مرجع التاجر (merchantReferenceId) غير موجود
+"the ""%1"" order ID is incorrect. Verify the ID and try again.","رقم العملية ""%1"" غير صحيح. يرجى التأكد من رقم الطلب والمحاولة مجدداً"
+incorrect currency,العملة غير صحيحة
+incorrect amount,القيمة غير صحيحة
+incorrect order state,حالة الطلب غير صحيحة
+incorrect detailed state,حالة الطلب المفصلة غير صحيحة
+Incorrect order status: %1,حالة طلب غير صحيحة: %1
+Incorrect status: %1,حالة غير صحيحة: %1
+Capture transaction not found,عملية التحصيل لم توجد
+Pay transaction not found,لم يتم ايجاد عملية الدفع
+%1 ending in %2 (expires %3),%1 المنتهية ب %2 (تنتهي صلاحيتها %3)
+Save for later use.,الحفظ للاستخدام لاحقاً
+Continue,المتابعة
+Something went wrong with your request. Please try again later.,حدث خطأ في الطلب، يرجى المحاولة لاحقاً
+Payment canceled,تم إلغاء الدفع
+General Settings,الاعدادات العامة
+Enabled,مُفعّل
+Vault Enabled,تفعيل تخزين الرموز
+Title,العنوان
+Minimum Order Total,اقل مجموع للطلب
+Maximum Order Total,اكثر مجموع للطلب
+Sort Order,ترتيب الطلب
+Payment system settings,اعدادات دفع النظام
+Merchant Key,مفتاح التاجر
+Merchant ID assigned to you by Geidea,هوية العميل المعينة لك من جيديا
+Merchant Password,كلمة السر واجهة برمجة تطبيق (API Password)
+Logo Url,رابط الشعار
+"Expected formats that will display the logo: PNG, JPEG, JPG, SVG, GIF. Max image size: 40X100","اختياري. الصيغات المتوقعة للملف لإظهار الشعار: PNG، JPEG، JPG، SVG، GIF. اكبر حجم متاح للصورة: 40X100"
+Header Color,لون بوابة الدفع
+"Optional. This color will be used by Geidea to adjust design of the widget. Use <a href=""https://htmlcolorcodes.com/color-picker"" target=""_blank"">Color Picker</a> to choose desired color.","اختياري. سيتم استخدام هذا اللون لتخصيص تصميم الواجهة. يمكنك استخدام <a href=""https://htmlcolorcodes.com/color-picker"" target=""_blank"">أداة اختيار الألوان</a> لاختيار اللون المفضل."
+Allowed Currencies,العملات المتاحة
+Delete,حذف
+Delete items,حذف العناصر
+Are you sure you want to delete selected items?,هل أنت متأكد من حذف العناصر المختارة؟
+ID,الهوية
+Card,البطاقة
+Token,رمز
+Created,تم انشاؤه
+Is Visible,ظاهر (نعم/لا)

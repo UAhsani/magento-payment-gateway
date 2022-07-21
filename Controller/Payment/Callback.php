@@ -130,7 +130,7 @@ class Callback extends AppAction implements
         $this->setPaymentData($payment, $payload);
         
         $payment
-            ->setPreparedMessage("Geidea `authorization` callback received.")
+            ->setPreparedMessage(__('Geidea `authorization` callback received.'))
             ->setTransactionId($authTransaction['transactionId'])
             ->setCurrencyCode($authTransaction['currency'])
             ->setIsTransactionClosed(0)
@@ -187,7 +187,7 @@ class Callback extends AppAction implements
         $this->setPaymentData($payment, $payload);
         
         $payment
-            ->setPreparedMessage("Geidea `capture` callback received.")
+            ->setPreparedMessage(__('Geidea `capture` callback received.'))
             ->setTransactionId($captureTransaction['transactionId'])
             ->setCurrencyCode($captureTransaction['currency'])
             ->setIsTransactionClosed(0)
@@ -225,7 +225,8 @@ class Callback extends AppAction implements
             if (!$order->getId()) {
                 throw new LocalizedException(
                     __(
-                        sprintf('the "%s" order ID is incorrect. Verify the ID and try again.', $merchantReferenceId)
+                        'the "%1" order ID is incorrect. Verify the ID and try again.',
+                        $merchantReferenceId
                     )
                 );
             }
