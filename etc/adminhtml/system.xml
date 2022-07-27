@@ -67,6 +67,11 @@
                         <comment><![CDATA[Optional. This color will be used by Geidea to adjust design of the widget. Use <a href="https://htmlcolorcodes.com/color-picker" target="_blank">Color Picker</a> to choose desired color.]]></comment>
                         <config_path>payment/geidea_payment/headerColor</config_path>
                     </field>
+                    <field id="receiptEnabled" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Receipt Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/geidea_payment/receiptEnabled</config_path>
+                    </field>
                     <field id="currencies" translate="label" type="multiselect" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                         <label>Allowed Currencies</label>
                         <source_model>Magento\Config\Model\Config\Source\Locale\Currency\All</source_model>

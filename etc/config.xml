@@ -21,6 +21,7 @@
                 <payByTokenUrl>https://api.merchant.geidea.net/pgw/api/v1/direct/pay/token</payByTokenUrl>
                 <merchantKey></merchantKey>
                 <merchantPassword></merchantPassword>
+                <receiptEnabled>0</receiptEnabled>
                 <currencies>EGP,SAR,USD</currencies>
             </geidea_payment>
             <geidea_payment_vault>

@@ -48,6 +48,7 @@ Title,Title
 "Expected formats that will display the logo: PNG, JPEG, JPG, SVG, GIF. Max image size: 40X100","Expected formats that will display the logo: PNG, JPEG, JPG, SVG, GIF. Max image size: 40X100"
 "Header Color","Header Color"
 "Optional. This color will be used by Geidea to adjust design of the widget. Use <a href=""https://htmlcolorcodes.com/color-picker"" target=""_blank"">Color Picker</a> to choose desired color.","Optional. This color will be used by Geidea to adjust design of the widget. Use <a href=""https://htmlcolorcodes.com/color-picker"" target=""_blank"">Color Picker</a> to choose desired color."
+"Receipt Enabled","Receipt Enabled"
 "Allowed Currencies","Allowed Currencies"
 Delete,Delete
 "Delete items","Delete items"

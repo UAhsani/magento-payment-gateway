@@ -48,6 +48,7 @@ Logo Url,رابط الشعار
 "Expected formats that will display the logo: PNG, JPEG, JPG, SVG, GIF. Max image size: 40X100","اختياري. الصيغات المتوقعة للملف لإظهار الشعار: PNG، JPEG، JPG، SVG، GIF. اكبر حجم متاح للصورة: 40X100"
 Header Color,لون بوابة الدفع
 "Optional. This color will be used by Geidea to adjust design of the widget. Use <a href=""https://htmlcolorcodes.com/color-picker"" target=""_blank"">Color Picker</a> to choose desired color.","اختياري. سيتم استخدام هذا اللون لتخصيص تصميم الواجهة. يمكنك استخدام <a href=""https://htmlcolorcodes.com/color-picker"" target=""_blank"">أداة اختيار الألوان</a> لاختيار اللون المفضل."
+Receipt Enabled,تفعيل اظهار فاتورة الدفع
 Allowed Currencies,العملات المتاحة
 Delete,حذف
 Delete items,حذف العناصر
