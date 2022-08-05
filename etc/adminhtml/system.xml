@@ -56,7 +56,7 @@
                         <validate>required-entry</validate>
                         <config_path>payment/geidea_payment/merchantPassword</config_path>
                     </field>
-                    <field id="logoUrl" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <field id="logoUrl" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                         <label>Logo Url</label>
                         <comment>Expected formats that will display the logo: PNG, JPEG, JPG, SVG, GIF. Max image size: 40X100</comment>
                         <frontend_class>validate-url</frontend_class>
@@ -66,6 +66,11 @@
                         <label>Header Color</label>
                         <comment><![CDATA[Optional. This color will be used by Geidea to adjust design of the widget. Use <a href="https://htmlcolorcodes.com/color-picker" target="_blank">Color Picker</a> to choose desired color.]]></comment>
                         <config_path>payment/geidea_payment/headerColor</config_path>
+                    </field>
+                    <field id="receiptEnabled" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Receipt Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/geidea_payment/receiptEnabled</config_path>
                     </field>
                     <field id="currencies" translate="label" type="multiselect" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                         <label>Allowed Currencies</label>
