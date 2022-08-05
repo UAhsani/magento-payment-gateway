@@ -3,7 +3,7 @@
     "description": "Geidea integration for Magento 2",
     "type": "magento2-module",
     "license": "OSL-3.0",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "autoload": {
         "files": [ "registration.php" ],
         "psr-4": {
