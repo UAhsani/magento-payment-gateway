@@ -1,0 +1,60 @@
+Configure,Configure
+Close,Close
+"Order Id","Order Id"
+Currency,Currency
+Status,Status
+"Customer Email","Customer Email"
+"Authorized Amount","Authorized Amount"
+"Captured Amount","Captured Amount"
+"Refunded Amount","Refunded Amount"
+"Created Date","Created Date"
+"Updated Date","Updated Date"
+"Geidea Tokens","Geidea Tokens"
+"Page not found","Page not found"
+"A total of %1 record(s) have been deleted.","A total of %1 record(s) have been deleted."
+"We can't initialize Checkout.","We can't initialize Checkout."
+"Geidea can't process orders with a zero balance due. To finish your purchase, please go through the standard checkout process.","Geidea can't process orders with a zero balance due. To finish your purchase, please go through the standard checkout process."
+"Sorry, but something went wrong","Sorry, but something went wrong"
+"Invalid signature","Invalid signature"
+"Geidea `authorization` callback received.","Geidea `authorization` callback received."
+"Geidea `capture` callback received.","Geidea `capture` callback received."
+"`merchantReferenceId` is null","`merchantReferenceId` is null"
+"the ""%1"" order ID is incorrect. Verify the ID and try again.","the ""%1"" order ID is incorrect. Verify the ID and try again."
+"incorrect currency","incorrect currency"
+"incorrect amount","incorrect amount"
+"incorrect order state","incorrect order state"
+"incorrect detailed state","incorrect detailed state"
+"Incorrect order status: %1","Incorrect order status: %1"
+"Incorrect status: %1","Incorrect status: %1"
+"Capture transaction not found","Capture transaction not found"
+"Pay transaction not found","Pay transaction not found"
+"%1 ending in %2 (expires %3)","%1 ending in %2 (expires %3)"
+"Save for later use.","Save for later use."
+Continue,Continue
+"Something went wrong with your request. Please try again later.","Something went wrong with your request. Please try again later."
+"Payment canceled","Payment canceled"
+"General Settings","General Settings"
+Enabled,Enabled
+"Vault Enabled","Vault Enabled"
+Title,Title
+"Minimum Order Total","Minimum Order Total"
+"Maximum Order Total","Maximum Order Total"
+"Sort Order","Sort Order"
+"Payment system settings","Payment system settings"
+"Merchant Key","Merchant Key"
+"Merchant ID assigned to you by Geidea","Merchant ID assigned to you by Geidea"
+"Merchant Password","Merchant Password"
+"Logo Url","Logo Url"
+"Expected formats that will display the logo: PNG, JPEG, JPG, SVG, GIF. Max image size: 40X100","Expected formats that will display the logo: PNG, JPEG, JPG, SVG, GIF. Max image size: 40X100"
+"Header Color","Header Color"
+"Optional. This color will be used by Geidea to adjust design of the widget. Use <a href=""https://htmlcolorcodes.com/color-picker"" target=""_blank"">Color Picker</a> to choose desired color.","Optional. This color will be used by Geidea to adjust design of the widget. Use <a href=""https://htmlcolorcodes.com/color-picker"" target=""_blank"">Color Picker</a> to choose desired color."
+"Receipt Enabled","Receipt Enabled"
+"Allowed Currencies","Allowed Currencies"
+Delete,Delete
+"Delete items","Delete items"
+"Are you sure you want to delete selected items?","Are you sure you want to delete selected items?"
+ID,ID
+Card,Card
+Token,Token
+Created,Created
+"Is Visible","Is Visible"

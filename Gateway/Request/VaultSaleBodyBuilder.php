@@ -25,7 +25,7 @@ class VaultSaleBodyBuilder implements BuilderInterface
 
         $token = $extensionAttributes->getVaultPaymentToken();
         if ($token === null) {
-            throw new CommandException(__('The Payment Token is not available to perform the request.'));
+            throw new CommandException('The Payment Token is not available to perform the request.');
         }
 
         $result = [

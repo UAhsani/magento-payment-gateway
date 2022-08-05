@@ -115,6 +115,8 @@ define([
                     currency: data.currency,
                     merchantReferenceId: data.orderId,
                     merchantLogoUrl: this.clientConfig.logoUrl,
+                    isTransactionReceiptEnabled: this.clientConfig.receiptEnabled,
+                    language: this.clientConfig.language,
                     paymentOperation: "PreAuthorize",
                     cardOnFile: this.isVaultEnabled() && this.vaultEnabler.isActivePaymentTokenEnabler(),
                     styles: { "headerColor": this.clientConfig.headerColor },

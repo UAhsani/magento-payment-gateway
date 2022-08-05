@@ -14,26 +14,24 @@ class CaptureValidator extends AbstractValidator
         if ($response["responseCode"] != '000') {
             return $this->createResult(
                 false,
-                [__(
-                    sprintf(
+                [sprintf(
                         "%s: %s; %s: %s",
                         $response["responseCode"],
                         $response["responseMessage"],
                         $response["detailedResponseCode"],
                         $response["detailedResponseMessage"]
-                    )
-                )]
+                    )]
             );
         }
         
         $order = $response["order"];
 
         if (mb_strtolower($order["status"]) != "success") {
-            return $this->createResult(false, [__(sprintf("Incorrect order status: %s", $order["status"]))]);
+            return $this->createResult(false, [__('Incorrect order status: %1', $order["status"])]);
         }
 
         if (mb_strtolower($order["detailedStatus"]) != "captured") {
-            return $this->createResult(false, [__(sprintf("Incorrect status: %s", $order["detailedStatus"]))]);
+            return $this->createResult(false, [__('Incorrect status: %1', $order["detailedStatus"])]);
         }
 
         $transactions = $order["transactions"];
