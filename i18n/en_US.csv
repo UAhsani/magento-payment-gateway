@@ -58,3 +58,7 @@ Card,Card
 Token,Token
 Created,Created
 "Is Visible","Is Visible"
+"Partner Id","Partner Id"
+"You can only refund the entire amount.","You can only refund the entire amount."
+"Refund transaction not found","Refund transaction not found"
+"Geidea `pay` callback received.","Geidea `pay` callback received."

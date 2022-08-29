@@ -101,25 +101,25 @@ class Callback extends AppAction implements
         $payment->setAdditionalInformation('updatedDate', $order['updatedDate']);
     }
 
-    private function processAuthorization($order, $payload)
+    private function processPay($order, $payload)
     {
         $payment = $order->getPayment();
 
-        $authTransaction = null;
+        $payTransaction = null;
         foreach ($payload['order']['transactions'] as $transaction) {
-            if (mb_strtolower($transaction["type"]) == "authorization" &&
+            if (mb_strtolower($transaction["type"]) == "pay" &&
                 mb_strtolower($transaction["status"]) == "success"
             ) {
-                $authTransaction = $transaction;
+                $payTransaction = $transaction;
             }
         }
 
-        if (!$authTransaction) {
+        if (!$payTransaction) {
             return;
         }
         
         if ($this->managerInterface->isTransactionExists(
-            $authTransaction['transactionId'],
+            $payTransaction['transactionId'],
             $payment->getId(),
             $order->getId()
         )
@@ -128,13 +128,6 @@ class Callback extends AppAction implements
         }
         
         $this->setPaymentData($payment, $payload);
-        
-        $payment
-            ->setPreparedMessage(__('Geidea `authorization` callback received.'))
-            ->setTransactionId($authTransaction['transactionId'])
-            ->setCurrencyCode($authTransaction['currency'])
-            ->setIsTransactionClosed(0)
-            ->setTransactionAdditionalInfo('Response', json_encode($payload));
 
         $token = $payload['order']['tokenId'];
 
@@ -143,59 +136,34 @@ class Callback extends AppAction implements
             $paymentToken->setGatewayToken($token);
             $paymentToken->setExpiresAt(
                 $this->getExpirationDate(
-                    $authTransaction['paymentMethod']['expiryDate']['year'],
-                    $authTransaction['paymentMethod']['expiryDate']['month']
+                    $payTransaction['paymentMethod']['expiryDate']['year'],
+                    $payTransaction['paymentMethod']['expiryDate']['month']
                 )
             );
 
             $paymentToken->setTokenDetails(json_encode([
-                'type' => $this->config->getCcTypesMapper()[$authTransaction['paymentMethod']['brand']],
-                'maskedCC' => substr($authTransaction['paymentMethod']['maskedCardNumber'], -4, 4),
+                'type' => $this->config->getCcTypesMapper()[$payTransaction['paymentMethod']['brand']],
+                'maskedCC' => substr($payTransaction['paymentMethod']['maskedCardNumber'], -4, 4),
                 'expirationDate' => sprintf(
                     "%s/%s",
-                    $authTransaction['paymentMethod']['expiryDate']['month'],
-                    $authTransaction['paymentMethod']['expiryDate']['year']
+                    $payTransaction['paymentMethod']['expiryDate']['month'],
+                    $payTransaction['paymentMethod']['expiryDate']['year']
                 )
             ]));
 
             $extensionAttributes = $payment->getExtensionAttributes();
             $extensionAttributes->setVaultPaymentToken($paymentToken);
         }
-            
-        $payment->registerAuthorizationNotification($authTransaction['amount']);
 
-        $this->orderRepository->save($order);
-    }
-
-    private function processCapture($order, $payload)
-    {
-        $payment = $order->getPayment();
-
-        $captureTransaction = null;
-        foreach ($payload['order']['transactions'] as $transaction) {
-            if (mb_strtolower($transaction["type"]) == "capture" &&
-                mb_strtolower($transaction["status"]) == "success"
-            ) {
-                $captureTransaction = $transaction;
-            }
-        }
-        
-        if (!$captureTransaction) {
-            return;
-        }
-
-        $this->setPaymentData($payment, $payload);
-        
         $payment
-            ->setPreparedMessage(__('Geidea `capture` callback received.'))
-            ->setTransactionId($captureTransaction['transactionId'])
-            ->setCurrencyCode($captureTransaction['currency'])
+            ->setPreparedMessage(__('Geidea `pay` callback received.'))
+            ->setTransactionId($payTransaction['transactionId'])
+            ->setCurrencyCode($payTransaction['currency'])
             ->setIsTransactionClosed(0)
-            ->setParentTransactionId($payment->getAuthorizationTransaction()->getTxnId())
             ->setShouldCloseParentTransaction(true)
             ->setTransactionAdditionalInfo('Response', json_encode($payload));
 
-        $payment->registerCaptureNotification($captureTransaction['amount'], true);
+        $payment->registerCaptureNotification($payTransaction['amount'], true);
 
         $this->orderRepository->save($order);
     }
@@ -243,10 +211,8 @@ class Callback extends AppAction implements
                 throw new LocalizedException(__('incorrect order state'));
             }
             
-            if (mb_strtolower($payload['order']["detailedStatus"]) == "authorized") {
-                $this->processAuthorization($order, $payload);
-            } elseif (mb_strtolower($payload['order']["detailedStatus"]) == "captured") {
-                $this->processCapture($order, $payload);
+            if (mb_strtolower($payload['order']["detailedStatus"]) == "paid") {
+                $this->processPay($order, $payload);
             } else {
                 throw new LocalizedException(__('incorrect detailed state'));
             }

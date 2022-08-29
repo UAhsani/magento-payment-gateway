@@ -78,6 +78,10 @@
                         <validate>required-entry validate-select</validate>
                         <config_path>payment/geidea_payment/currencies</config_path>
                     </field>
+                    <field id="partnerId" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Partner Id</label>
+                        <config_path>payment/geidea_payment/partnerId</config_path>
+                    </field>
                 </group>
             </group>
         </section>
