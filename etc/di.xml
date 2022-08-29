@@ -35,6 +35,7 @@
             <argument name="commands" xsi:type="array">
                 <item name="capture" xsi:type="string">GeideaCaptureCommand</item>
                 <item name="vault_sale" xsi:type="string">GeideaVaultSaleCommand</item>
+                <item name="refund" xsi:type="string">GeideaRefundCommand</item>
             </argument>
         </arguments>
     </virtualType>
@@ -150,6 +151,32 @@
             <argument name="client" xsi:type="object">Geidea\Payment\Gateway\Http\Client\Client</argument>
             <argument name="validator" xsi:type="object">Geidea\Payment\Gateway\Validator\VaultSaleValidator</argument>
             <argument name="handler" xsi:type="object">Geidea\Payment\Gateway\Response\VaultSaleHandler</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- RefundCommand -->
+    <type name="Geidea\Payment\Gateway\Request\RefundUrlBuilder">
+        <arguments>
+            <argument name="config" xsi:type="object">GeideaConfig</argument>
+        </arguments>
+    </type>
+    <virtualType name="GeideaRefundRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="auth" xsi:type="string">Geidea\Payment\Gateway\Request\AuthBuilder</item>
+                <item name="refundUrl" xsi:type="string">Geidea\Payment\Gateway\Request\RefundUrlBuilder</item>
+                <item name="refund" xsi:type="string">Geidea\Payment\Gateway\Request\RefundBodyBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GeideaRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">GeideaRefundRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Geidea\Payment\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Geidea\Payment\Gateway\Http\Client\Client</argument>
+            <argument name="validator" xsi:type="object">Geidea\Payment\Gateway\Validator\RefundValidator</argument>
+            <argument name="handler" xsi:type="object">Geidea\Payment\Gateway\Response\RefundHandler</argument>
+            <argument name="productMetadata" xsi:type="object">\Magento\Framework\App\ProductMetadataInterface</argument>
         </arguments>
     </virtualType>
 
