@@ -16,8 +16,8 @@ We can't initialize Checkout.,لم نستطع تهيئة  بوابة الدفع
 "Geidea can't process orders with a zero balance due. To finish your purchase, please go through the standard checkout process.",بوابة الدفع لا تستقبل عمليات بالمبلغ صفر. لاستكمال عملية الشراء، يرجى محاولة الدفع عن طريق البوابة مجدداً
 "Sorry, but something went wrong",معذرة، حدث خطأ ما
 Invalid signature,التوقيع الالكتروني غير صالح
-Geidea `authorization` callback received.,ارسال التفويض لم يصل
-Geidea `capture` callback received.,الرسال التحصيل لم يصل
+Geidea `authorization` callback received.,تم استلام ارسال التفويض
+Geidea `capture` callback received.,تم استلام ارسال التحصيل
 `merchantReferenceId` is null,مُعرِّف مرجع التاجر (merchantReferenceId) غير موجود
 "the ""%1"" order ID is incorrect. Verify the ID and try again.","رقم العملية ""%1"" غير صحيح. يرجى التأكد من رقم الطلب والمحاولة مجدداً"
 incorrect currency,العملة غير صحيحة
@@ -58,3 +58,7 @@ Card,البطاقة
 Token,رمز
 Created,تم انشاؤه
 Is Visible,ظاهر (نعم/لا)
+"Partner Id", "هوية الشريك"
+"You can only refund the entire amount.","فشل في الاسترداد! يمكنك فقط استرداد المبلغ بالكامل!"
+"Refund transaction not found","لم يتم العثور على عملية استرداد الأموال"
+"Geidea `pay` callback received.","تم استلام الاستدعاء لدفع جيديا"

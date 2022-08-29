@@ -12,6 +12,7 @@
                 <can_use_checkout>1</can_use_checkout>
                 <can_capture>1</can_capture>
                 <can_capture_vault>1</can_capture_vault>
+                <can_refund>1</can_refund>
                 <cctypes_mapper><![CDATA[{"american-express":"AE","discover":"DI","jcb":"JCB","mastercard":"MC","master-card":"MC","visa":"VI","maestro":"MI","diners-club":"DN","unionpay":"CUP"}]]></cctypes_mapper>
                 <paymentInfoKeys>orderId,currency,detailedStatus,customerEmail,totalAuthorizedAmount,totalCapturedAmount,totalRefundedAmount,createdDate,updatedDate</paymentInfoKeys>
                 <reserveUrl>geidea/payment/reserve</reserveUrl>
@@ -19,8 +20,10 @@
                 <callbackUrl>geidea/payment/callback</callbackUrl>
                 <captureUrl>https://api.merchant.geidea.net/pgw/api/v1/direct/capture</captureUrl>
                 <payByTokenUrl>https://api.merchant.geidea.net/pgw/api/v1/direct/pay/token</payByTokenUrl>
+                <refundUrl>https://api.merchant.geidea.net/pgw/api/v1/direct/refund</refundUrl>
                 <merchantKey></merchantKey>
                 <merchantPassword></merchantPassword>
+                <partnerId></partnerId>
                 <receiptEnabled>0</receiptEnabled>
                 <currencies>EGP,SAR,USD</currencies>
             </geidea_payment>

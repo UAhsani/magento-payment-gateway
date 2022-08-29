@@ -117,13 +117,17 @@ define([
                     merchantLogoUrl: this.clientConfig.logoUrl,
                     isTransactionReceiptEnabled: this.clientConfig.receiptEnabled,
                     language: this.clientConfig.language,
-                    paymentOperation: "PreAuthorize",
                     cardOnFile: this.isVaultEnabled() && this.vaultEnabler.isActivePaymentTokenEnabler(),
                     styles: { "headerColor": this.clientConfig.headerColor },
                     email: {
                         email: data.customerEmail
                     },
-                    address: data.address
+                    address: data.address,
+                    integrationType: this.clientConfig.integrationType,
+                    name: this.clientConfig.name,
+                    version: this.clientConfig.version,
+                    pluginVersion: this.clientConfig.pluginVersion,
+                    partnerId: this.clientConfig.partnerId
                 });
 
                 api.startPayment();
