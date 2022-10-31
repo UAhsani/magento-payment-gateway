@@ -9,14 +9,26 @@ use Magento\Framework\UrlInterface;
 
 class TokenUiComponentProvider implements TokenUiComponentProviderInterface
 {
+    /**
+     * @var TokenUiComponentInterfaceFactory
+     */
     private $componentFactory;
 
+    /**
+     * Constructor
+     *
+     * @param TokenUiComponentInterfaceFactory $componentFactory
+     */
     public function __construct(
         TokenUiComponentInterfaceFactory $componentFactory
     ) {
         $this->componentFactory = $componentFactory;
     }
 
+    /**
+     * @param PaymentTokenInterface $paymentToken
+     * @return TokenUiComponentInterface
+     */
     public function getComponentForToken(PaymentTokenInterface $paymentToken)
     {
         $jsonDetails = json_decode($paymentToken->getTokenDetails() ?: '{}', true);

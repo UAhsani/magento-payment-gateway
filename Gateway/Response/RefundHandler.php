@@ -6,6 +6,10 @@ use Magento\Payment\Gateway\Response\HandlerInterface;
 
 class RefundHandler implements HandlerInterface
 {
+    /**
+     * @param InfoInterface $payment
+     * @param array $payload
+     */
     private function setPaymentData($payment, $payload)
     {
         $order = $payload['order'];
@@ -21,6 +25,10 @@ class RefundHandler implements HandlerInterface
         $payment->setAdditionalInformation('updatedDate', $order['updatedDate']);
     }
 
+    /**
+     * @param array $handlingSubject
+     * @param array $response
+     */
     public function handle(array $handlingSubject, array $response)
     {
         $paymentDO = SubjectReader::readPayment($handlingSubject);

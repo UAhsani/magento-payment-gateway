@@ -11,10 +11,28 @@ use Magento\Framework\View\Helper\Js;
 use Magento\Framework\View\Helper\SecureHtmlRenderer;
 
 class Payment extends Fieldset
-{
+{    
+    /**
+     * @var Config
+     */
     private $config;
+
+    /**
+     * @var SecureHtmlRenderer
+     */
     private $secureRenderer;
 
+    /**
+     * Constructor
+     *
+     * @param Context $context
+     * @param Session $authSession
+     * @param FilterBuilder $filterBuilder
+     * @param Js $jsHelper
+     * @param Config $config
+     * @param SecureHtmlRenderer $secureRenderer
+     * @param array $data
+     */
     public function __construct(
         Context $context,
         Session $authSession,
@@ -34,11 +52,17 @@ class Payment extends Fieldset
         $this->secureRenderer = $secureRenderer;
     }
 
+    /**
+     * @param AbstractElement $element
+     */
     protected function _getFrontendClass($element)
     {
         return parent::_getFrontendClass($element) . ' with-button';
     }
 
+    /**
+     * @param AbstractElement $element
+     */
     protected function _getHeaderTitleHtml($element)
     {
         $html = '<div class="config-heading" >';
@@ -73,16 +97,25 @@ class Payment extends Fieldset
         return $html;
     }
 
+    /**
+     * @param AbstractElement $element
+     */
     protected function _getHeaderCommentHtml($element)
     {
         return '';
     }
 
+    /**
+     * @param AbstractElement $element
+     */
     protected function _isCollapseState($element)
     {
         return false;
     }
 
+    /**
+     * @param AbstractElement $element
+     */
     protected function _getExtraJs($element)
     {
         $script = "require(['jquery', 'prototype'], function(jQuery){

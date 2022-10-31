@@ -8,15 +8,27 @@ use Magento\Framework\Exception\LocalizedException;
 
 class RefundBodyBuilder implements BuilderInterface
 {
-    const ORDER_ID = 'orderId';
+    public const ORDER_ID = 'orderId';
 
+    /**
+     * @var SubjectReader
+     */
     private $subjectReader;
 
+    /**
+     * Constructor
+     *
+     * @param SubjectReader $subjectReader
+     */
     public function __construct(SubjectReader $subjectReader)
     {
         $this->subjectReader = $subjectReader;
     }
 
+    /**
+     * @param array $buildSubject
+     * @return array
+     */
     public function build(array $buildSubject)
     {
         $paymentDO = $this->subjectReader->readPayment($buildSubject);

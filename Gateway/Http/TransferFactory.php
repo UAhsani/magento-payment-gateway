@@ -7,14 +7,26 @@ use Magento\Payment\Gateway\Http\TransferInterface;
 
 class TransferFactory implements TransferFactoryInterface
 {
+    /**
+     * @var TransferBuilder
+     */
     private $transferBuilder;
 
+    /**
+     * Constructor
+     *
+     * @param TransferBuilder $transferBuilder
+     */
     public function __construct(
         TransferBuilder $transferBuilder
     ) {
         $this->transferBuilder = $transferBuilder;
     }
 
+    /**
+     * @param array $request
+     * @return TransferInterface
+     */
     public function create(array $request)
     {
         return $this->transferBuilder

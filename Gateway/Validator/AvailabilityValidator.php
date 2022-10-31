@@ -9,8 +9,17 @@ use Geidea\Payment\Gateway\Config\Config;
 
 class AvailabilityValidator extends AbstractValidator
 {
+    /**
+     * @var Config
+     */
     private $config;
 
+    /**
+     * Constructor
+     *
+     * @param ResultInterfaceFactory $resultFactory
+     * @param Config $config
+     */
     public function __construct(
         ResultInterfaceFactory $resultFactory,
         Config $config
@@ -19,6 +28,10 @@ class AvailabilityValidator extends AbstractValidator
         parent::__construct($resultFactory);
     }
     
+    /**
+     * @param array $validationSubject
+     * @return ResultInterface
+     */
     public function validate(array $validationSubject)
     {
         $quote = $validationSubject['quote'];
