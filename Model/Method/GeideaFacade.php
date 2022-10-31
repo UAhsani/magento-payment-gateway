@@ -14,8 +14,25 @@ use Psr\Log\LoggerInterface;
 // workaround https://github.com/magento/magento2/issues/30211
 class GeideaFacade extends \Magento\Payment\Model\Method\Adapter
 {
+    /**
+     * @var ValidatorPoolInterface
+     */
     private $validatorPool;
     
+    /**
+     * Constructor
+     *
+     * @param ManagerInterface $eventManager
+     * @param ValueHandlerPoolInterface $valueHandlerPool
+     * @param PaymentDataObjectFactory $paymentDataObjectFactory
+     * @param string $code
+     * @param Form $formBlockType
+     * @param Info $infoBlockType
+     * @param CommandPoolInterface $commandPool
+     * @param ValidatorPoolInterface $validatorPool
+     * @param CommandManagerInterface $commandExecutor
+     * @param LoggerInterface $logger
+     */
     public function __construct(
         ManagerInterface $eventManager,
         ValueHandlerPoolInterface $valueHandlerPool,
@@ -44,6 +61,10 @@ class GeideaFacade extends \Magento\Payment\Model\Method\Adapter
         $this->validatorPool = $validatorPool;
     }
 
+    /**
+     * @param CartInterface $quote
+     * @return bool
+     */
     public function isAvailable(CartInterface $quote = null)
     {
         return parent::isAvailable($quote) &&

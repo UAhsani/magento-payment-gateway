@@ -13,17 +13,55 @@ use Magento\Framework\Module\ModuleList;
 class GeideaConfigProvider implements ConfigProviderInterface
 {
 
-    const CODE = 'geidea_payment';
-    const VAULT_CODE = 'geidea_payment_vault';
+    public const CODE = 'geidea_payment';
+    public const VAULT_CODE = 'geidea_payment_vault';
 
-    private $config;
+    /**
+     * @var Config
+     */
+    private $ConfigInterface;
+
+    /**
+     * @var SessionManagerInterface
+     */
     private $session;
+
+    /**
+     * @var UrlInterface
+     */
     private $urlBuilder;
+
+    /**
+     * @var ResolverInterface
+     */
     private $localeResolver;
+
+    /**
+     * @var BooleanUtils
+     */
     private $booleanUtils;
+
+    /**
+     * @var ProductMetadataInterface
+     */
     private $productMetadata;
+
+    /**
+     * @var ModuleList
+     */
     private $moduleList;
 
+    /**
+     * Constructor
+     *
+     * @param ConfigInterface $config
+     * @param SessionManagerInterface $session
+     * @param UrlInterface $urlBuilder
+     * @param ResolverInterface $localeResolver
+     * @param BooleanUtils $booleanUtils
+     * @param ProductMetadataInterface $productMetadata
+     * @param ModuleList $moduleList
+     */
     public function __construct(
         ConfigInterface $config,
         SessionManagerInterface $session,
@@ -42,6 +80,9 @@ class GeideaConfigProvider implements ConfigProviderInterface
         $this->moduleList = $moduleList;
     }
 
+    /**
+     * @return array
+     */
     public function getConfig()
     {
         $storeId = $this->session->getStoreId();

@@ -7,12 +7,25 @@ use Magento\Payment\Gateway\Helper\SubjectReader;
 
 class CaptureUrlBuilder implements BuilderInterface
 {
-    const URL = 'url';
-    const METHOD = 'method';
+    public const URL = 'url';
+    public const METHOD = 'method';
 
+    /**
+     * @var SubjectReader
+     */
     private $subjectReader;
+
+    /**
+     * @var ConfigInterface
+     */
     private $config;
 
+    /**
+     * Constructor
+     *
+     * @param SubjectReader $subjectReader
+     * @param ConfigInterface $config
+     */
     public function __construct(
         SubjectReader $subjectReader,
         ConfigInterface $config
@@ -21,6 +34,10 @@ class CaptureUrlBuilder implements BuilderInterface
         $this->config = $config;
     }
 
+    /**
+     * @param array $buildSubject
+     * @return array
+     */
     public function build(array $buildSubject)
     {
         $paymentDO = $this->subjectReader->readPayment($buildSubject);

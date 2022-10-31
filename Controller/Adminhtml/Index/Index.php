@@ -9,8 +9,17 @@ use Magento\Framework\App\Action\HttpGetActionInterface;
 
 class Index extends Action implements HttpGetActionInterface
 {
+    /**
+     * @var PageFactory
+     */
     private $pageFactory;
 
+    /**
+     * Constructor
+     *
+     * @param Context $context
+     * @param PageFactory $rawFactory
+     */
     public function __construct(
         Context $context,
         PageFactory $rawFactory
@@ -20,6 +29,9 @@ class Index extends Action implements HttpGetActionInterface
         parent::__construct($context);
     }
 
+    /**
+     * @return Page
+     */
     public function execute(): Page
     {
         $resultPage = $this->pageFactory->create();

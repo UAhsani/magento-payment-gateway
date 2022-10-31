@@ -8,13 +8,26 @@ use Geidea\Payment\Ui\DataProvider\GeideaTokens\ListingDataProvider;
 
 class AddAttributesToUiDataProvider
 {
+    /**
+     * @var Config
+     */
     private $config;
     
+    /**
+     * Constructor
+     *
+     * @param Config $config
+     */
     public function __construct(Config $config)
     {
         $this->config = $config;
     }
 
+    /**
+     * @param ListingDataProvider $subject
+     * @param SearchResult $result
+     * @return SearchResult
+     */
     public function afterGetSearchResult(ListingDataProvider $subject, SearchResult $result)
     {
         if ($result->isLoaded()) {
@@ -37,6 +50,11 @@ class AddAttributesToUiDataProvider
         return $result;
     }
 
+    /**
+     * @param ListingDataProvider $subject
+     * @param array $data
+     * @return array
+     */
     public function afterGetData(ListingDataProvider $subject, $data)
     {
         foreach ($data['items'] as &$item) {
@@ -53,6 +71,10 @@ class AddAttributesToUiDataProvider
         return $data;
     }
 
+    /**
+     * @param string $code
+     * @return string
+     */
     private function getBrandByCode($code)
     {
         $mapper = $this->config->getCcTypesMapper();
