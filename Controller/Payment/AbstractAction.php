@@ -15,12 +15,41 @@ use Magento\Quote\Api\GuestCartRepositoryInterface;
 abstract class AbstractAction extends AppAction implements
     HttpPostActionInterface
 {
+    /**
+     * @var UserContextInterface
+     */
     protected $userContext;
+
+    /**
+     * @var CartRepositoryInterface
+     */
     protected $cartRepository;
-    protected $guestCartRepository;
+
+    /**
+     * @var CartRepositoryInterface
+     */
+    protected $GuestCartRepositoryInterface;
+
+    /**
+     * @var GenericSession
+     */
     protected $genericSession;
+
+    /**
+     * @var CheckoutSession
+     */
     protected $checkoutSession;
 
+    /**
+     * Constructor
+     *
+     * @param Context $context
+     * @param UserContextInterface $userContext
+     * @param CartRepositoryInterface $cartRepository
+     * @param GuestCartRepositoryInterface $guestCartRepository
+     * @param GenericSession $genericSession
+     * @param CheckoutSession $checkoutSession
+     */
     public function __construct(
         Context $context,
         UserContextInterface $userContext,
@@ -37,6 +66,10 @@ abstract class AbstractAction extends AppAction implements
         $this->checkoutSession = $checkoutSession;
     }
     
+    /**
+     * @param string $quoteId
+     * @return Quote
+     */
     protected function getQuote($quoteId)
     {
         if ($quoteId) {
@@ -61,6 +94,9 @@ abstract class AbstractAction extends AppAction implements
         return $this->checkoutSession->getQuote();
     }
 
+    /**
+     * @param Quote $quote
+     */
     protected function checkQuote($quote)
     {
         if (!$quote->hasItems() || $quote->getHasError()) {
@@ -78,5 +114,8 @@ abstract class AbstractAction extends AppAction implements
         }
     }
 
+    /**
+     * @return mixed
+     */
     abstract public function execute();
 }

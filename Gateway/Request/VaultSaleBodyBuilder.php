@@ -6,13 +6,25 @@ use Magento\Payment\Gateway\Helper\SubjectReader;
 
 class VaultSaleBodyBuilder implements BuilderInterface
 {
+    /**
+     * @var SubjectReader
+     */
     private $subjectReader;
 
+    /**
+     * Constructor
+     *
+     * @param SubjectReader $subjectReader
+     */
     public function __construct(SubjectReader $subjectReader)
     {
         $this->subjectReader = $subjectReader;
     }
 
+    /**
+     * @param array $buildSubject
+     * @return array
+     */
     public function build(array $buildSubject)
     {
         $paymentDO = $this->subjectReader->readPayment($buildSubject);

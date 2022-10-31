@@ -7,6 +7,10 @@ use Magento\Payment\Gateway\Validator\ResultInterfaceFactory;
 
 class RefundValidator extends AbstractValidator
 {
+    /**
+     * @param array $validationSubject
+     * @return ResultInterface
+     */
     public function validate(array $validationSubject)
     {
         $response = SubjectReader::readResponse($validationSubject);
@@ -15,12 +19,12 @@ class RefundValidator extends AbstractValidator
             return $this->createResult(
                 false,
                 [sprintf(
-                        "%s: %s; %s: %s",
-                        $response["responseCode"],
-                        $response["responseMessage"],
-                        $response["detailedResponseCode"],
-                        $response["detailedResponseMessage"]
-                    )]
+                    "%s: %s; %s: %s",
+                    $response["responseCode"],
+                    $response["responseMessage"],
+                    $response["detailedResponseCode"],
+                    $response["detailedResponseMessage"]
+                )]
             );
         }
         

@@ -9,9 +9,22 @@ use Magento\Payment\Model\Method\Logger;
 
 class Client implements ClientInterface
 {
+    /**
+     * @var ZendClientFactory
+     */
     private $clientFactory;
+
+    /**
+     * @var Logger
+     */
     private $logger;
 
+    /**
+     * Constructor
+     *
+     * @param ZendClientFactory $clientFactory
+     * @param Logger $logger
+     */
     public function __construct(
         ZendClientFactory $clientFactory,
         Logger $logger
@@ -20,6 +33,10 @@ class Client implements ClientInterface
         $this->logger = $logger;
     }
 
+    /**
+     * @param TransferInterface $transferObject
+     * @return mixed
+     */
     public function placeRequest(TransferInterface $transferObject)
     {
         $log = [

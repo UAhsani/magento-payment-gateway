@@ -13,12 +13,31 @@ use Magento\Vault\Api\PaymentTokenRepositoryInterface;
 
 class MassDelete extends Action implements HttpPostActionInterface
 {
-    const ADMIN_RESOURCE = 'Geidea_Payment::customer_tokens';
+    public const ADMIN_RESOURCE = 'Geidea_Payment::customer_tokens';
 
+    /**
+     * @var ObjectManagerInterface
+     */
     private $objectManager;
+
+    /**
+     * @var Filter
+     */
     private $filter;
+
+    /**
+     * @var PaymentTokenRepositoryInterface
+     */
     private $repository;
 
+    /**
+     * Constructor
+     *
+     * @param Context $context
+     * @param ObjectManagerInterface $objectManager
+     * @param Filter $filter
+     * @param PaymentTokenRepositoryInterface $repository
+     */
     public function __construct(
         Context $context,
         ObjectManagerInterface $objectManager,
@@ -32,6 +51,9 @@ class MassDelete extends Action implements HttpPostActionInterface
         $this->repository = $repository;
     }
 
+    /**
+     * @return Redirect
+     */
     public function execute(): Redirect
     {
         if (!$this->getRequest()->isPost()) {

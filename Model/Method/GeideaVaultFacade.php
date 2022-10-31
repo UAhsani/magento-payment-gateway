@@ -15,6 +15,9 @@ use Magento\Framework\Serialize\Serializer\Json;
 
 class GeideaVaultFacade extends \Magento\Vault\Model\Method\Vault
 {
+    /**
+     * @return string
+     */
     public function getConfigPaymentAction()
     {
         return $this->getConfigData('payment_action');

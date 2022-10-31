@@ -20,12 +20,46 @@ use Psr\Log\LoggerInterface;
 
 class Authorize extends AbstractAction
 {
+    /**
+     * @var CustomerSession
+     */
     private $customerSession;
+
+    /**
+     * @var CartManagementInterface
+     */
     private $cartManagement;
+    
+    /**
+     * @var CheckoutData
+     */
     private $checkoutData;
+
+    /**
+     * @var LoggerInterface
+     */
     private $logger;
+
+    /**
+     * @var UrlInterface
+     */
     private $urlBuilder;
     
+    /**
+     * Constructor
+     *
+     * @param Context $context
+     * @param UserContextInterface $userContext
+     * @param CartRepositoryInterface $cartRepository
+     * @param GuestCartRepositoryInterface $guestCartRepository
+     * @param GenericSession $genericSession
+     * @param CheckoutSession $checkoutSession
+     * @param CustomerSession $customerSession
+     * @param CartManagementInterface $cartManagement
+     * @param CheckoutData $checkoutData
+     * @param LoggerInterface $logger
+     * @param UrlInterface $urlBuilder
+     */
     public function __construct(
         Context $context,
         UserContextInterface $userContext,
@@ -54,6 +88,10 @@ class Authorize extends AbstractAction
         $this->urlBuilder = $urlBuilder;
     }
     
+    /**
+     * @param Quote $quoteId
+     * @return string
+     */
     private function getCheckoutMethod($quote)
     {
         if ($this->customerSession->isLoggedIn()) {
@@ -70,6 +108,9 @@ class Authorize extends AbstractAction
         return $quote->getCheckoutMethod();
     }
 
+    /**
+     * @param Quote $quote
+     */
     private function ignoreAddressValidation($quote)
     {
         $quote->getBillingAddress()->setShouldIgnoreValidation(true);
@@ -78,6 +119,9 @@ class Authorize extends AbstractAction
         }
     }
 
+    /**
+     * @return ResultInterface
+     */
     public function execute() : ResultInterface
     {
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);

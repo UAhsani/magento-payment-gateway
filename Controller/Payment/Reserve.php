@@ -17,9 +17,28 @@ use Psr\Log\LoggerInterface;
 
 class Reserve extends AbstractAction
 {
+    /**
+     * @var CountryInformationAcquirerInterface
+     */
     private $countryInformation;
+
+    /**
+     * @var LoggerInterface
+     */
     private $logger;
     
+    /**
+     * Constructor
+     *
+     * @param Context $context
+     * @param UserContextInterface $userContext
+     * @param CartRepositoryInterface $cartRepository
+     * @param GuestCartRepositoryInterface $guestCartRepository
+     * @param GenericSession $genericSession
+     * @param CheckoutSession $checkoutSession
+     * @param CountryInformationAcquirerInterface $countryInformation
+     * @param LoggerInterface $logger
+     */
     public function __construct(
         Context $context,
         UserContextInterface $userContext,
@@ -42,6 +61,9 @@ class Reserve extends AbstractAction
         $this->logger = $logger;
     }
     
+    /**
+     * @return ResultInterface
+     */
     public function execute() : ResultInterface
     {
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);

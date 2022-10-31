@@ -7,12 +7,24 @@ use Magento\Payment\Gateway\Helper\SubjectReader;
 
 class AuthBuilder implements BuilderInterface
 {
-    const USERNAME = 'username';
-    const PASSWORD = 'password';
+    public const USERNAME = 'username';
+    public const PASSWORD = 'password';
 
+    /**
+     * @var SubjectReader
+     */
     private $subjectReader;
+
+    /**
+     * @var ConfigInterface
+     */
     private $config;
 
+    /**
+     * Constructor
+     *
+     * @param TransferBuilder $transferBuilder
+     */
     public function __construct(
         SubjectReader $subjectReader,
         ConfigInterface $config
@@ -21,6 +33,10 @@ class AuthBuilder implements BuilderInterface
         $this->config = $config;
     }
 
+    /**
+    * @param array $buildSubject
+    * @return array
+    */
     public function build(array $buildSubject)
     {
         $paymentDO = $this->subjectReader->readPayment($buildSubject);

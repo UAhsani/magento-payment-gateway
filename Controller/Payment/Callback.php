@@ -23,14 +23,53 @@ class Callback extends AppAction implements
     CsrfAwareActionInterface,
     HttpPostActionInterface
 {
+    /**
+     * @var Config
+     */
     private $config;
+
+    /**
+     * @var OrderRepositoryInterface
+     */
     private $orderRepository;
+
+    /**
+     * @var OrderFactory
+     */
     private $orderFactory;
+
+    /**
+     * @var OrderSender
+     */
     private $orderSender;
+
+    /**
+     * @var ManagerInterface
+     */
     private $managerInterface;
+
+    /**
+     * @var PaymentTokenFactoryInterface
+     */
     private $paymentTokenFactory;
+
+    /**
+     * @var LoggerInterface
+     */
     private $logger;
     
+    /**
+     * Constructor
+     *
+     * @param Context $context
+     * @param Config $config
+     * @param OrderRepositoryInterface $orderRepository
+     * @param OrderFactory $orderFactory
+     * @param OrderSender $orderSender
+     * @param ManagerInterface $managerInterface
+     * @param PaymentTokenFactoryInterface $paymentTokenFactory
+     * @param LoggerInterface $logger
+     */
     public function __construct(
         Context $context,
         Config $config,
@@ -51,17 +90,28 @@ class Callback extends AppAction implements
         $this->logger = $logger;
     }
 
+    /**
+     * @param RequestInterface $request
+     * @return null
+     */
     public function createCsrfValidationException(
         RequestInterface $request
     ): ?InvalidRequestException {
         return null;
     }
 
+    /**
+     * @param RequestInterface $request
+     * @return bool
+     */
     public function validateForCsrf(RequestInterface $request): ?bool
     {
         return true;
     }
 
+    /**
+     * @param array $payload
+     */
     private function checkSignature($payload)
     {
         $merchant_key = $this->config->getValue('merchantKey');
@@ -86,6 +136,10 @@ class Callback extends AppAction implements
         }
     }
 
+    /**
+     * @param Payment $payment
+     * @param array $payload
+     */
     private function setPaymentData($payment, $payload)
     {
         $order = $payload['order'];
@@ -101,6 +155,10 @@ class Callback extends AppAction implements
         $payment->setAdditionalInformation('updatedDate', $order['updatedDate']);
     }
 
+    /**
+     * @param Order $order
+     * @param array $payload
+     */
     private function processPay($order, $payload)
     {
         $payment = $order->getPayment();
@@ -168,6 +226,9 @@ class Callback extends AppAction implements
         $this->orderRepository->save($order);
     }
 
+    /**
+     * @return ResultInterface
+     */
     public function execute() : ResultInterface
     {
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
@@ -229,6 +290,11 @@ class Callback extends AppAction implements
         return $result->setData($response);
     }
 
+    /**
+     * @param string $year
+     * @param string $month
+     * @return string
+     */
     private function getExpirationDate($year, $month)
     {
         $expDate = new \DateTime(

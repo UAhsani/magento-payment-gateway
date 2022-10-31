@@ -6,8 +6,15 @@ use Magento\Payment\Block\ConfigurableInfo;
 
 class Info extends ConfigurableInfo
 {
+    /**
+     * @var array
+     */
     private $fields;
     
+    /**
+     * @param string $field
+     * @return array|string
+     */
     protected function getLabel($field)
     {
         if (!$this->fields) {
@@ -27,6 +34,11 @@ class Info extends ConfigurableInfo
         return $this->fields[$field] ?? '';
     }
 
+    /**
+     * @param string $field
+     * @param string $value
+     * @return string
+     */
     protected function getValueView($field, $value)
     {
         switch ($field) {
