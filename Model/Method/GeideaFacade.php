@@ -26,8 +26,8 @@ class GeideaFacade extends \Magento\Payment\Model\Method\Adapter
      * @param ValueHandlerPoolInterface $valueHandlerPool
      * @param PaymentDataObjectFactory $paymentDataObjectFactory
      * @param string $code
-     * @param Form $formBlockType
-     * @param Info $infoBlockType
+     * @param string $formBlockType
+     * @param string $infoBlockType
      * @param CommandPoolInterface $commandPool
      * @param ValidatorPoolInterface $validatorPool
      * @param CommandManagerInterface $commandExecutor
