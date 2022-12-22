@@ -62,6 +62,8 @@ class Reserve extends AbstractAction
     }
     
     /**
+     * Reserve the order
+     *
      * @return ResultInterface
      */
     public function execute() : ResultInterface

@@ -8,6 +8,8 @@ use Magento\Payment\Gateway\Validator\ResultInterfaceFactory;
 class VaultSaleValidator extends AbstractValidator
 {
     /**
+     * Validate response from Geidea Gateway
+     *
      * @param array $validationSubject
      * @return ResultInterface
      */

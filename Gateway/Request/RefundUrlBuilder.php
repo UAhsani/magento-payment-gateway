@@ -35,6 +35,8 @@ class RefundUrlBuilder implements BuilderInterface
     }
 
     /**
+     * Builds refund ENV request
+     *
      * @param array $buildSubject
      * @return array
      */

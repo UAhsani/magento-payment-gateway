@@ -10,6 +10,8 @@ use Geidea\Payment\Model\Ui\GeideaConfigProvider;
 class CardRenderer extends AbstractCardRenderer
 {
     /**
+     * Can render specified token
+     *
      * @param PaymentTokenInterface $token
      * @return bool
      */
@@ -19,6 +21,8 @@ class CardRenderer extends AbstractCardRenderer
     }
 
     /**
+     * Get last 4 digits of card
+     *
      * @return string
      */
     public function getNumberLast4Digits()
@@ -27,6 +31,8 @@ class CardRenderer extends AbstractCardRenderer
     }
 
     /**
+     * Get expiration date of card
+     *
      * @return string
      */
     public function getExpDate()
@@ -35,6 +41,8 @@ class CardRenderer extends AbstractCardRenderer
     }
 
     /**
+     * Get icon url
+     *
      * @return string
      */
     public function getIconUrl()
@@ -43,6 +51,8 @@ class CardRenderer extends AbstractCardRenderer
     }
 
     /**
+     * Get icon height
+     *
      * @return string
      */
     public function getIconHeight()
@@ -51,6 +61,8 @@ class CardRenderer extends AbstractCardRenderer
     }
 
     /**
+     * Get icon width
+     *
      * @return string
      */
     public function getIconWidth()

@@ -35,6 +35,8 @@ class VaultSaleUrlBuilder implements BuilderInterface
     }
 
     /**
+     * Builds ENV request
+     *
      * @param array $buildSubject
      * @return array
      */

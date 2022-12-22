@@ -24,6 +24,8 @@ class AddAttributesToUiDataProvider
     }
 
     /**
+     * Filter result after search
+     *
      * @param ListingDataProvider $subject
      * @param SearchResult $result
      * @return SearchResult
@@ -51,6 +53,8 @@ class AddAttributesToUiDataProvider
     }
 
     /**
+     * Add card data to result
+     *
      * @param ListingDataProvider $subject
      * @param array $data
      * @return array
@@ -72,6 +76,8 @@ class AddAttributesToUiDataProvider
     }
 
     /**
+     * Get brand of card
+     *
      * @param string $code
      * @return string
      */

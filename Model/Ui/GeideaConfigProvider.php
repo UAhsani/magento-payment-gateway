@@ -81,6 +81,8 @@ class GeideaConfigProvider implements ConfigProviderInterface
     }
 
     /**
+     * Get Geidea config
+     *
      * @return array
      */
     public function getConfig()

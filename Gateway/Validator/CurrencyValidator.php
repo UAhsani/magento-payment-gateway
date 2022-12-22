@@ -29,6 +29,8 @@ class CurrencyValidator extends AbstractValidator
     }
     
     /**
+     * Validate currency
+     *
      * @param array $validationSubject
      * @return ResultInterface
      */

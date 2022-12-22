@@ -7,6 +7,8 @@ use Magento\Payment\Gateway\Response\HandlerInterface;
 class VaultSaleHandler implements HandlerInterface
 {
     /**
+     * Set additional info for transaction from Geidea Gateway
+     *
      * @param InfoInterface $payment
      * @param array $payload
      */
@@ -26,6 +28,8 @@ class VaultSaleHandler implements HandlerInterface
     }
 
     /**
+     * Handles response
+     *
      * @param array $handlingSubject
      * @param array $response
      */

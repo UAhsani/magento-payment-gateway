@@ -26,6 +26,8 @@ class RefundBodyBuilder implements BuilderInterface
     }
 
     /**
+     * Builds refund body request
+     *
      * @param array $buildSubject
      * @return array
      */

@@ -12,6 +12,8 @@ class Info extends ConfigurableInfo
     private $fields;
     
     /**
+     * Returns label
+     *
      * @param string $field
      * @return array|string
      */
@@ -35,6 +37,8 @@ class Info extends ConfigurableInfo
     }
 
     /**
+     * Returns value view
+     *
      * @param string $field
      * @param string $value
      * @return string
