@@ -22,6 +22,8 @@ class VaultSaleBodyBuilder implements BuilderInterface
     }
 
     /**
+     * Builds vault payment body request
+     *
      * @param array $buildSubject
      * @return array
      */

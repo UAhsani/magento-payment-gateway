@@ -1,16 +1,15 @@
 <?php
 namespace Geidea\Payment\Gateway\Http\Client;
 
-use Magento\Framework\HTTP\ZendClient;
-use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Payment\Gateway\Http\ClientInterface;
 use Magento\Payment\Gateway\Http\TransferInterface;
 use Magento\Payment\Model\Method\Logger;
+use Magento\Framework\HTTP\ClientFactory;
 
 class Client implements ClientInterface
 {
     /**
-     * @var ZendClientFactory
+     * @var ClientFactory
      */
     private $clientFactory;
 
@@ -22,11 +21,11 @@ class Client implements ClientInterface
     /**
      * Constructor
      *
-     * @param ZendClientFactory $clientFactory
+     * @param ClientFactory $clientFactory
      * @param Logger $logger
      */
     public function __construct(
-        ZendClientFactory $clientFactory,
+        ClientFactory $clientFactory,
         Logger $logger
     ) {
         $this->clientFactory = $clientFactory;
@@ -34,6 +33,8 @@ class Client implements ClientInterface
     }
 
     /**
+     *  Places request to gateway. Returns result as ENV array
+     *
      * @param TransferInterface $transferObject
      * @return mixed
      */
@@ -46,13 +47,14 @@ class Client implements ClientInterface
         $result = [];
         $client = $this->clientFactory->create();
 
-        $client->setAuth($transferObject->getAuthUsername(), $transferObject->getAuthPassword());
-        $client->setConfig($transferObject->getClientConfig());
-        $client->setMethod($transferObject->getMethod());
+        $client->setHeaders($transferObject->getHeaders());
+
+        $client->setCredentials($transferObject->getAuthUsername(), $transferObject->getAuthPassword());
+
+        $client->setOptions($transferObject->getClientConfig());
 
         switch ($transferObject->getMethod()) {
-            case \Zend_Http_Client::POST:
-                $client->setRawData($transferObject->getBody());
+            case "POST":
                 break;
             default:
                 throw new \LogicException(
@@ -63,16 +65,13 @@ class Client implements ClientInterface
                 );
         }
 
-        $client->setHeaders($transferObject->getHeaders());
-        $client->setUrlEncodeBody($transferObject->shouldEncode());
-        $client->setUri($transferObject->getUri());
-
         try {
-            $response = $client->request();
+            $body = $transferObject->getBody();
+            $client->post($uri, $body);
 
-            $result = json_decode($response->getBody(), true);
+            $result = json_decode($client->getBody(), true);
             $log['response'] = $result;
-        } catch (\Zend_Http_Client_Exception $e) {
+        } catch (\Exception $e) {
             throw new \Magento\Payment\Gateway\Http\ClientException(
                 __($e->getMessage())
             );

@@ -91,8 +91,7 @@ class Callback extends AppAction implements
     }
 
     /**
-     * @param RequestInterface $request
-     * @return null
+     * @inheritDoc
      */
     public function createCsrfValidationException(
         RequestInterface $request
@@ -101,8 +100,7 @@ class Callback extends AppAction implements
     }
 
     /**
-     * @param RequestInterface $request
-     * @return bool
+     * @inheritDoc
      */
     public function validateForCsrf(RequestInterface $request): ?bool
     {
@@ -110,6 +108,8 @@ class Callback extends AppAction implements
     }
 
     /**
+     * Check signature
+     *
      * @param array $payload
      */
     private function checkSignature($payload)
@@ -137,6 +137,8 @@ class Callback extends AppAction implements
     }
 
     /**
+     * Set payment data from Geidea Gateway
+     *
      * @param Payment $payment
      * @param array $payload
      */
@@ -156,6 +158,8 @@ class Callback extends AppAction implements
     }
 
     /**
+     * Process the payment
+     *
      * @param Order $order
      * @param array $payload
      */
@@ -227,6 +231,8 @@ class Callback extends AppAction implements
     }
 
     /**
+     * Handle callback from Geidea Gateway
+     *
      * @return ResultInterface
      */
     public function execute() : ResultInterface
@@ -291,6 +297,8 @@ class Callback extends AppAction implements
     }
 
     /**
+     * Get expiration date
+     *
      * @param string $year
      * @param string $month
      * @return string

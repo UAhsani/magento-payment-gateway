@@ -31,6 +31,10 @@ define([
                 return self;
             },
 
+            getCheckoutImage: function() {
+                return this.clientConfig.checkoutIcon;
+            },
+
             getCode: function() {
                 return 'geidea_payment';
             },
@@ -114,7 +118,7 @@ define([
                     amount: data.amount,
                     currency: data.currency,
                     merchantReferenceId: data.orderId,
-                    merchantLogoUrl: this.clientConfig.logoUrl,
+                    merchantLogoUrl: this.clientConfig.merchantLogo,
                     isTransactionReceiptEnabled: this.clientConfig.receiptEnabled,
                     language: this.clientConfig.language,
                     cardOnFile: this.isVaultEnabled() && this.vaultEnabler.isActivePaymentTokenEnabler(),

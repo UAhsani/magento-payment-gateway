@@ -62,3 +62,7 @@ Created,Created
 "You can only refund the entire amount.","You can only refund the entire amount."
 "Refund transaction not found","Refund transaction not found"
 "Geidea `pay` callback received.","Geidea `pay` callback received."
+"Displays on Geidea modal form. Allowed file types: jpg, jpeg, png, svg","Displays on Geidea modal form. Allowed file types: jpg, jpeg, png, svg"
+"Displays on checkout page. Allowed file types: jpg, jpeg, png, svg","Displays on checkout page. Allowed file types: jpg, jpeg, png, svg"
+Checkout icon,Checkout icon
+Merchant logo,Merchant logo

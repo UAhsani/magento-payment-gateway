@@ -23,7 +23,8 @@ class AuthBuilder implements BuilderInterface
     /**
      * Constructor
      *
-     * @param TransferBuilder $transferBuilder
+     * @param SubjectReader $subjectReader
+     * @param ConfigInterface $config
      */
     public function __construct(
         SubjectReader $subjectReader,
@@ -34,9 +35,11 @@ class AuthBuilder implements BuilderInterface
     }
 
     /**
-    * @param array $buildSubject
-    * @return array
-    */
+     * Builds auth ENV request
+     *
+     * @param array $buildSubject
+     * @return array
+     */
     public function build(array $buildSubject)
     {
         $paymentDO = $this->subjectReader->readPayment($buildSubject);

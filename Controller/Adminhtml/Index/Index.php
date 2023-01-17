@@ -30,6 +30,8 @@ class Index extends Action implements HttpGetActionInterface
     }
 
     /**
+     * Get Geidea Token page
+     *
      * @return Page
      */
     public function execute(): Page

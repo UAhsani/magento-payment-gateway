@@ -24,6 +24,8 @@ class TransferFactory implements TransferFactoryInterface
     }
 
     /**
+     * Builds gateway transfer object
+     *
      * @param array $request
      * @return TransferInterface
      */

@@ -29,6 +29,8 @@ class AvailabilityValidator extends AbstractValidator
     }
     
     /**
+     * Validate order data
+     *
      * @param array $validationSubject
      * @return ResultInterface
      */

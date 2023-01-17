@@ -89,7 +89,9 @@ class Authorize extends AbstractAction
     }
     
     /**
-     * @param Quote $quoteId
+     * Get checkout method by quote
+     *
+     * @param Quote $quote
      * @return string
      */
     private function getCheckoutMethod($quote)
@@ -109,6 +111,8 @@ class Authorize extends AbstractAction
     }
 
     /**
+     * Set ignore validation
+     *
      * @param Quote $quote
      */
     private function ignoreAddressValidation($quote)
@@ -120,6 +124,8 @@ class Authorize extends AbstractAction
     }
 
     /**
+     * Execute authorize
+     *
      * @return ResultInterface
      */
     public function execute() : ResultInterface

@@ -62,3 +62,7 @@ Is Visible,ظاهر (نعم/لا)
 "You can only refund the entire amount.","فشل في الاسترداد! يمكنك فقط استرداد المبلغ بالكامل!"
 "Refund transaction not found","لم يتم العثور على عملية استرداد الأموال"
 "Geidea `pay` callback received.","تم استلام الاستدعاء لدفع جيديا"
+"Displays on Geidea modal form. Allowed file types: jpg, jpeg, png, svg","يتم عرضه في نموذج جيديا. أنواع الملفات المسموح بها: jpg، jpeg، png، svg"
+"Displays on checkout page. Allowed file types: jpg, jpeg, png, svg","يتم عرضه في صفحة الدفع. أنواع الملفات المسموح بها: jpg، jpeg، png، svg"
+Checkout icon,رمز الدفع
+Merchant logo,شعار التاجر
