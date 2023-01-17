@@ -56,12 +56,6 @@
                         <validate>required-entry</validate>
                         <config_path>payment/geidea_payment/merchantPassword</config_path>
                     </field>
-                    <field id="logoUrl" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
-                        <label>Logo Url</label>
-                        <comment>Expected formats that will display the logo: PNG, JPEG, JPG, SVG, GIF. Max image size: 40X100</comment>
-                        <frontend_class>validate-url</frontend_class>
-                        <config_path>payment/geidea_payment/logoUrl</config_path>
-                    </field>
                     <field id="headerColor" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                         <label>Header Color</label>
                         <comment><![CDATA[Optional. This color will be used by Geidea to adjust design of the widget. Use <a href="https://htmlcolorcodes.com/color-picker" target="_blank">Color Picker</a> to choose desired color.]]></comment>
@@ -81,6 +75,22 @@
                     <field id="partnerId" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
                         <label>Partner Id</label>
                         <config_path>payment/geidea_payment/partnerId</config_path>
+                    </field>
+                    <field id="checkoutIcon" translate="label" type="Magento\Config\Block\System\Config\Form\Field\Image" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Checkout icon</label>
+                        <backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
+                        <base_url type="media" scope_info="1">geidea</base_url>
+                        <upload_dir config="system" scope_info="1">geidea</upload_dir>
+                        <comment>Displays on checkout page. Allowed file types: jpg, jpeg, png, svg</comment>
+                        <config_path>payment/geidea_payment/checkoutIcon</config_path>
+                    </field>
+                    <field id="merchantLogo" translate="label" type="Magento\Config\Block\System\Config\Form\Field\Image" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Merchant logo</label>
+                        <backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
+                        <base_url type="media" scope_info="1">geidea</base_url>
+                        <upload_dir config="system" scope_info="1">geidea</upload_dir>
+                        <comment>Displays on Geidea modal form. Allowed file types: jpg, jpeg, png, svg</comment>
+                        <config_path>payment/geidea_payment/merchantLogo</config_path>
                     </field>
                 </group>
             </group>
