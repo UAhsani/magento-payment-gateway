@@ -11,7 +11,7 @@ use Magento\Framework\View\Helper\Js;
 use Magento\Framework\View\Helper\SecureHtmlRenderer;
 
 class Payment extends Fieldset
-{    
+{
     /**
      * @var Config
      */
@@ -27,7 +27,6 @@ class Payment extends Fieldset
      *
      * @param Context $context
      * @param Session $authSession
-     * @param FilterBuilder $filterBuilder
      * @param Js $jsHelper
      * @param Config $config
      * @param SecureHtmlRenderer $secureRenderer
@@ -53,6 +52,8 @@ class Payment extends Fieldset
     }
 
     /**
+     * Add custom css class
+     *
      * @param AbstractElement $element
      */
     protected function _getFrontendClass($element)
@@ -61,6 +62,8 @@ class Payment extends Fieldset
     }
 
     /**
+     * Return header title part of html for payment solution
+     *
      * @param AbstractElement $element
      */
     protected function _getHeaderTitleHtml($element)
@@ -98,6 +101,8 @@ class Payment extends Fieldset
     }
 
     /**
+     * Return header comment part of html for payment solution
+     *
      * @param AbstractElement $element
      */
     protected function _getHeaderCommentHtml($element)
@@ -106,6 +111,8 @@ class Payment extends Fieldset
     }
 
     /**
+     * Get collapsed state on-load
+     *
      * @param AbstractElement $element
      */
     protected function _isCollapseState($element)
@@ -114,6 +121,8 @@ class Payment extends Fieldset
     }
 
     /**
+     * Return extra Js.
+     *
      * @param AbstractElement $element
      */
     protected function _getExtraJs($element)

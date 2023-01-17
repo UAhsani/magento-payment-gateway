@@ -4,7 +4,7 @@
                name="payment[method]"
                class="radio"
                data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()"/>
-        <img class="payment-icon"/>
+        <img class="payment-icon" data-bind="attr: {'src': getCheckoutImage()}"/>
         <label data-bind="attr: {'for': getCode()}" class="label"><span data-bind="text: getTitle()"></span></label>
     </div>
 

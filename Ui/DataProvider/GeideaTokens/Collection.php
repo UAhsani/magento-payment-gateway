@@ -6,6 +6,8 @@ use Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult;
 class Collection extends SearchResult
 {
     /**
+     * Init select
+     *
      * @return void
      */
     protected function _initSelect()

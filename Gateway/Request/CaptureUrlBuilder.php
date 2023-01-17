@@ -35,6 +35,8 @@ class CaptureUrlBuilder implements BuilderInterface
     }
 
     /**
+     * Builds capture ENV request
+     *
      * @param array $buildSubject
      * @return array
      */

@@ -67,6 +67,8 @@ abstract class AbstractAction extends AppAction implements
     }
     
     /**
+     * Get quote by quoteId
+     *
      * @param string $quoteId
      * @return Quote
      */
@@ -95,6 +97,8 @@ abstract class AbstractAction extends AppAction implements
     }
 
     /**
+     * Check quote
+     *
      * @param Quote $quote
      */
     protected function checkQuote($quote)
@@ -115,7 +119,7 @@ abstract class AbstractAction extends AppAction implements
     }
 
     /**
-     * @return mixed
+     * @inheritdoc
      */
     abstract public function execute();
 }

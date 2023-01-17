@@ -62,6 +62,8 @@ class GeideaFacade extends \Magento\Payment\Model\Method\Adapter
     }
 
     /**
+     * Check is quote available
+     *
      * @param CartInterface $quote
      * @return bool
      */

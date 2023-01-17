@@ -24,6 +24,8 @@ class CaptureBodyBuilder implements BuilderInterface
     }
 
     /**
+     * Builds capture request body
+     *
      * @param array $buildSubject
      * @return array
      */

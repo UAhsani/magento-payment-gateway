@@ -20,6 +20,8 @@ class Config extends \Magento\Payment\Gateway\Config\Config
     }
 
     /**
+     * Retrieve mapper between Magento and Geidea card types
+     *
      * @return array
      */
     public function getCcTypesMapper()
